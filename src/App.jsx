@@ -94,9 +94,9 @@ export default function App() {
           </div>
 
           <div className="creator-section">
-            <div className="created-by-tag">Created by</div>
             <div className="name-blocks">
               <span className="name-block helen">Helen</span>
+              <div className="by-tag">by</div>
               <span className="name-block maroulis">Maroulis</span>
             </div>
           </div>
