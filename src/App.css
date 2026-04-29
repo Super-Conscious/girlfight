@@ -305,17 +305,16 @@
     justify-content: flex-start;
   }
 
-  /* Coming soon: 16px margin each side */
+  /* Coming soon: 16px margin each side, minimal horizontal padding */
   .block-coming-soon {
     width: calc(100% + 16px);
     margin-left: -8px;
     margin-right: -8px;
-    padding: 16px 24px 18px;
+    padding: 13px 6px;
   }
 
-  .label-coming-soon {
-    font-size: clamp(38px, 11vw, 56px);
-  }
+  .label-coming-soon:first-child { font-size: clamp(48px, 16vw, 72px); }
+  .label-coming-soon:last-child  { font-size: clamp(34px, 11vw, 50px); }
 
   .name-block {
     font-size: clamp(34px, 10vw, 48px);
