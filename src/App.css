@@ -95,7 +95,7 @@
 /* Coming soon — bleeds to full panel width on desktop */
 .block-coming-soon {
   background: var(--yellow);
-  padding: 13px 8px;
+  padding: 13px;
   width: calc(100% + 76px);
   margin-left: -20px;
   line-height: 0.88;
