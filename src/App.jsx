@@ -86,17 +86,16 @@ export default function App() {
 
         <aside className="right-panel">
           <div className="block-coming-soon">
-            <div className="label-coming-soon label-title">
-              <span>Girl</span>
-              <span>Fight</span>
-            </div>
-            <p className="label-coming-soon label-subtitle">is coming soon</p>
+            <p className="label-coming-soon">Girl Fight</p>
+            <p className="label-coming-soon">is coming soon</p>
           </div>
 
           <div className="creator-section">
+            <div className="by-wrapper">
+              <div className="by-tag">by</div>
+            </div>
             <div className="name-blocks">
               <span className="name-block helen">Helen</span>
-              <div className="by-tag">by</div>
               <span className="name-block maroulis">Maroulis</span>
             </div>
           </div>
