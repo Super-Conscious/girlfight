@@ -98,7 +98,10 @@
   padding: 13px;
   width: calc(100% + 76px);
   margin-left: -20px;
-  line-height: 0.88;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4.5px;
 }
 
 .label-coming-soon {
@@ -106,13 +109,13 @@
   font-weight: 800;
   text-transform: uppercase;
   color: var(--black);
-  line-height: 0.88;
+  line-height: 0.85;
   text-align: center;
   white-space: nowrap;
 }
 
 .label-coming-soon:first-child { font-size: 72px; }
-.label-coming-soon:last-child  { font-size: 50px; }
+.label-coming-soon:last-child  { font-size: 49px; }
 
 /* Creator */
 .creator-section {
