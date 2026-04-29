@@ -100,7 +100,7 @@
   margin-left: -20px;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   gap: 4.5px;
 }
 
@@ -110,7 +110,7 @@
   text-transform: uppercase;
   color: var(--black);
   line-height: 0.85;
-  text-align: center;
+  text-align: left;
   white-space: nowrap;
   text-box-trim: trim-both;
   text-box-edge: cap alphabetic;
