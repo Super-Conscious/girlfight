@@ -122,7 +122,7 @@
 
 .created-by-tag {
   background: var(--black);
-  color: var(--yellow);
+  color: var(--pink);
   font-family: var(--font-body);
   font-weight: 700;
   font-size: 12px;
@@ -140,7 +140,7 @@
 }
 
 .name-block {
-  background: var(--yellow);
+  background: var(--pink);
   color: var(--black);
   font-family: var(--font-display);
   font-weight: 800;
@@ -313,8 +313,9 @@
     padding: 13px 6px;
   }
 
-  .label-coming-soon:first-child { font-size: clamp(48px, 16vw, 72px); }
-  .label-coming-soon:last-child  { font-size: clamp(34px, 11vw, 50px); }
+  .label-coming-soon { white-space: nowrap; }
+  .label-coming-soon:first-child { font-size: clamp(38px, 14vw, 72px); }
+  .label-coming-soon:last-child  { font-size: clamp(28px, 9.5vw, 50px); }
 
   .name-block {
     font-size: clamp(34px, 10vw, 48px);
