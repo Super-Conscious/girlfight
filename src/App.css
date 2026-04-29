@@ -95,7 +95,7 @@
 /* Coming soon */
 .block-coming-soon {
   background: var(--yellow);
-  padding: 12px 16px 14px;
+  padding: 13px 16px;
   width: 100%;
   line-height: 0.88;
 }
@@ -103,12 +103,14 @@
 .label-coming-soon {
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: clamp(28px, 3vw, 48px);
   text-transform: uppercase;
   color: var(--black);
   line-height: 0.88;
   text-align: center;
 }
+
+.label-coming-soon:first-child { font-size: 72px; }
+.label-coming-soon:last-child  { font-size: 50px; }
 
 /* Creator */
 .creator-section {
@@ -172,6 +174,7 @@
   line-height: 1.4;
   color: var(--yellow);
   text-align: center;
+  text-wrap: balance;
 }
 
 /* Email form */

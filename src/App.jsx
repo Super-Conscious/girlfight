@@ -75,7 +75,7 @@ export default function App() {
           </div>
 
           <div className="block-bio">
-            <p>Girl Fight makes premium apparel for life<br />in and out of the gym.</p>
+            <p>Girl Fight makes premium apparel for life in and out of the gym.</p>
           </div>
 
           <form className="block-email" onSubmit={handleSubmit}>
