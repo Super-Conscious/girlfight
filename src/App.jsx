@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import './App.css'
 
 const MARQUEE_ITEMS = Array(14).fill('NO APOLOGIES.')
@@ -17,6 +17,24 @@ function MarqueeBanner() {
 export default function App() {
   const [email, setEmail] = useState('')
   const [submitted, setSubmitted] = useState(false)
+  const videoRef = useRef(null)
+
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video) return
+    const timer = { id: null }
+    function onEnded() {
+      timer.id = setTimeout(() => {
+        video.currentTime = 0
+        video.play()
+      }, 5000)
+    }
+    video.addEventListener('ended', onEnded)
+    return () => {
+      video.removeEventListener('ended', onEnded)
+      clearTimeout(timer.id)
+    }
+  }, [])
 
   function handleSubmit(e) {
     e.preventDefault()
@@ -36,7 +54,7 @@ export default function App() {
         />
 
         <div className="video-panel">
-          <video autoPlay muted loop playsInline>
+          <video ref={videoRef} autoPlay muted playsInline>
             <source src="/GF_SPLASH_HERO.webm" type="video/webm" />
             <source src="/GF_SPLASH_HERO_alpha.mp4" type="video/mp4" />
           </video>
