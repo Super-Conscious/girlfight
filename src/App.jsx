@@ -37,8 +37,7 @@ export default function App() {
 
         <div className="video-panel">
           <video autoPlay muted loop playsInline>
-            <source src="/GF_SPLASH_HERO.mov" type="video/quicktime" />
-            <source src="/GF_SPLASH_HERO.mov" type="video/mp4" />
+            <source src="/GF_SPLASH_HERO.mp4" type="video/mp4" />
           </video>
         </div>
 
