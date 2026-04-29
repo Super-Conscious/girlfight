@@ -93,9 +93,11 @@
 }
 
 /* Coming soon — bleeds to full panel width on desktop */
+/* padding-bottom is reduced to compensate for the font's descender space,
+   which adds ~10px of invisible gap below uppercase glyphs in the browser */
 .block-coming-soon {
   background: var(--yellow);
-  padding: 13px;
+  padding: 13px 13px 4px;
   width: calc(100% + 76px);
   margin-left: -20px;
   display: flex;
