@@ -17,6 +17,7 @@ function MarqueeBanner() {
 export default function App() {
   const [email, setEmail] = useState('')
   const [submitted, setSubmitted] = useState(false)
+  const [emailFocused, setEmailFocused] = useState(false)
   const videoRef = useRef(null)
 
   useEffect(() => {
@@ -78,7 +79,7 @@ export default function App() {
             <p>Girl Fight makes premium apparel for life in and out of the gym.</p>
           </div>
 
-          <form className="block-email" onSubmit={handleSubmit}>
+          <form className={`block-email${emailFocused ? ' is-focused' : ''}`} onSubmit={handleSubmit}>
             <p className="email-label">Join our email list</p>
             {submitted ? (
               <p className="email-thanks">You&rsquo;re in. Thanks!</p>
@@ -89,6 +90,8 @@ export default function App() {
                   placeholder="Your Email"
                   value={email}
                   onChange={e => setEmail(e.target.value)}
+                  onFocus={() => setEmailFocused(true)}
+                  onBlur={() => setEmailFocused(false)}
                   required
                   aria-label="Email address"
                 />

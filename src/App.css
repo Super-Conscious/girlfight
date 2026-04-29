@@ -186,6 +186,11 @@
   gap: 18px;
   transform: rotate(-2.68deg);
   width: 100%;
+  transition: transform 0.3s ease;
+}
+
+.block-email.is-focused {
+  transform: rotate(0deg);
 }
 
 .email-label {
