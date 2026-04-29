@@ -262,11 +262,10 @@
 /* Social bar */
 .social-bar {
   background: var(--black);
-  padding: 10px;
-  display: flex;
+  padding: 10px 14px;
+  display: inline-flex;
   align-items: center;
   gap: 10px;
-  width: 100%;
 }
 
 .stay-tuned {

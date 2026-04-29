@@ -17,9 +17,9 @@ function MarqueeBanner() {
 function InstagramIcon() {
   return (
     <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-label="Instagram">
-      <rect x="1.5" y="1.5" width="15" height="15" rx="4" stroke="white" strokeWidth="1.5"/>
-      <circle cx="9" cy="9" r="3.5" stroke="white" strokeWidth="1.5"/>
-      <circle cx="13.2" cy="4.8" r="1" fill="white"/>
+      <rect x="1.5" y="1.5" width="15" height="15" rx="4" stroke="#FF85F1" strokeWidth="1.5"/>
+      <circle cx="9" cy="9" r="3.5" stroke="#FF85F1" strokeWidth="1.5"/>
+      <circle cx="13.2" cy="4.8" r="1" fill="#FF85F1"/>
     </svg>
   )
 }
@@ -27,8 +27,8 @@ function InstagramIcon() {
 function YouTubeIcon() {
   return (
     <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-label="YouTube">
-      <rect x="1" y="4.5" width="16" height="9" rx="2.5" fill="white"/>
-      <path d="M7.5 6.8L12 9L7.5 11.2V6.8Z" fill="#111"/>
+      <rect x="1" y="4.5" width="16" height="9" rx="2.5" fill="#FF85F1"/>
+      <path d="M7.5 6.8L12 9L7.5 11.2V6.8Z" fill="#000"/>
     </svg>
   )
 }
