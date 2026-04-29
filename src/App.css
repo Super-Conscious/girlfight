@@ -86,7 +86,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 18px;
+  gap: 24px;
   padding: 28px 56px 28px 20px;
   position: relative;
   z-index: 2;
@@ -340,7 +340,7 @@
     width: 100%;
     flex-shrink: 0;
     padding: 0 24px 0;
-    gap: 20px;
+    gap: 24px;
     justify-content: flex-start;
   }
 
