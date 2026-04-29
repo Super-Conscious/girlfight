@@ -14,6 +14,41 @@ function MarqueeBanner() {
   )
 }
 
+function InstagramIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-label="Instagram">
+      <rect x="1.5" y="1.5" width="15" height="15" rx="4" stroke="white" strokeWidth="1.5"/>
+      <circle cx="9" cy="9" r="3.5" stroke="white" strokeWidth="1.5"/>
+      <circle cx="13.2" cy="4.8" r="1" fill="white"/>
+    </svg>
+  )
+}
+
+function YouTubeIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-label="YouTube">
+      <rect x="1" y="4.5" width="16" height="9" rx="2.5" fill="white"/>
+      <path d="M7.5 6.8L12 9L7.5 11.2V6.8Z" fill="#111"/>
+    </svg>
+  )
+}
+
+function SocialBar() {
+  return (
+    <div className="social-bar">
+      <span className="stay-tuned">Stay Tuned</span>
+      <div className="social-icons">
+        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+          <InstagramIcon />
+        </a>
+        <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+          <YouTubeIcon />
+        </a>
+      </div>
+    </div>
+  )
+}
+
 export default function App() {
   const [email, setEmail] = useState('')
   const [submitted, setSubmitted] = useState(false)
@@ -99,6 +134,8 @@ export default function App() {
               </div>
             )}
           </form>
+
+          <SocialBar />
         </aside>
 
         <span className="copyright">©2026 Girl Fight</span>

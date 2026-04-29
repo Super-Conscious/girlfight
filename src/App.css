@@ -92,11 +92,12 @@
   z-index: 2;
 }
 
-/* Coming soon */
+/* Coming soon — bleeds to full panel width on desktop */
 .block-coming-soon {
   background: var(--yellow);
-  padding: 13px 16px;
-  width: 100%;
+  padding: 13px 8px;
+  width: calc(100% + 76px);
+  margin-left: -20px;
   line-height: 0.88;
 }
 
@@ -107,6 +108,7 @@
   color: var(--black);
   line-height: 0.88;
   text-align: center;
+  white-space: nowrap;
 }
 
 .label-coming-soon:first-child { font-size: 72px; }
@@ -257,6 +259,44 @@
   padding-bottom: 4px;
 }
 
+/* Social bar */
+.social-bar {
+  background: var(--black);
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.stay-tuned {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--pink);
+  transform: rotate(-2.65deg);
+  display: inline-block;
+}
+
+.social-icons {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.social-icons a {
+  display: flex;
+  align-items: center;
+  opacity: 0.9;
+  transition: opacity 0.15s ease;
+}
+
+.social-icons a:hover {
+  opacity: 1;
+}
+
 /* Copyright */
 .copyright {
   position: absolute;
@@ -305,17 +345,15 @@
     justify-content: flex-start;
   }
 
-  /* Coming soon: 16px margin each side, minimal horizontal padding */
+  /* Coming soon: 16px from each screen edge on mobile */
   .block-coming-soon {
     width: calc(100% + 16px);
     margin-left: -8px;
-    margin-right: -8px;
     padding: 13px 6px;
   }
 
-  .label-coming-soon { white-space: nowrap; }
-  .label-coming-soon:first-child { font-size: clamp(38px, 14vw, 72px); }
-  .label-coming-soon:last-child  { font-size: clamp(28px, 9.5vw, 50px); }
+  .label-coming-soon:first-child { font-size: clamp(44px, 15vw, 72px); }
+  .label-coming-soon:last-child  { font-size: clamp(31px, 10.5vw, 50px); }
 
   .name-block {
     font-size: clamp(34px, 10vw, 48px);
