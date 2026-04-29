@@ -24,15 +24,6 @@ function InstagramIcon() {
   )
 }
 
-function YouTubeIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-label="YouTube">
-      <rect x="1" y="4.5" width="16" height="9" rx="2.5" fill="#FF85F1"/>
-      <path d="M7.5 6.8L12 9L7.5 11.2V6.8Z" fill="#000"/>
-    </svg>
-  )
-}
-
 function SocialBar() {
   return (
     <div className="social-bar">
@@ -40,9 +31,6 @@ function SocialBar() {
       <div className="social-icons">
         <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
           <InstagramIcon />
-        </a>
-        <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
-          <YouTubeIcon />
         </a>
       </div>
     </div>
@@ -115,7 +103,7 @@ export default function App() {
           </div>
 
           <form className={`block-email${emailFocused ? ' is-focused' : ''}`} onSubmit={handleSubmit}>
-            <p className="email-label">Join our email list</p>
+            <p className="email-label">Join our fight club</p>
             {submitted ? (
               <p className="email-thanks">You&rsquo;re in. Thanks!</p>
             ) : (
