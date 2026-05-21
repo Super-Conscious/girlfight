@@ -8,7 +8,8 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Valid email required' })
   }
 
-  const { MAILCHIMP_API_KEY, MAILCHIMP_LIST_ID } = process.env
+  const MAILCHIMP_API_KEY = process.env.MAILCHIMP_API_KEY.trim()
+  const MAILCHIMP_LIST_ID = process.env.MAILCHIMP_LIST_ID.trim()
   const dc = MAILCHIMP_API_KEY.split('-')[1]
 
   const response = await fetch(
@@ -32,5 +33,5 @@ export default async function handler(req, res) {
     return res.status(200).json({ success: true })
   }
 
-  return res.status(500).json({ error: 'Subscription failed' })
+  return res.status(500).json({ error: data.detail || data.title || 'Subscription failed' })
 }
