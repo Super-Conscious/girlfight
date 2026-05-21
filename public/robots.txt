@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://girl-fight.vercel.app/sitemap.xml
+Sitemap: https://girlfightapparel.com/sitemap.xml
