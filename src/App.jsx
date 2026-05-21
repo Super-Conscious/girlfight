@@ -40,11 +40,23 @@ function SocialBar() {
 export default function App() {
   const [email, setEmail] = useState('')
   const [submitted, setSubmitted] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
   const [emailFocused, setEmailFocused] = useState(false)
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault()
-    if (email) setSubmitted(true)
+    if (!email || submitting) return
+    setSubmitting(true)
+    try {
+      await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      })
+    } finally {
+      setSubmitting(false)
+      setSubmitted(true)
+    }
   }
 
   return (
@@ -102,7 +114,7 @@ export default function App() {
                   required
                   aria-label="Email address"
                 />
-                <button type="submit" className="email-submit" aria-label="Subscribe">→</button>
+                <button type="submit" className="email-submit" aria-label="Subscribe" disabled={submitting}>→</button>
               </div>
             )}
           </form>
