@@ -64,12 +64,10 @@ export default function App() {
       <MarqueeBanner />
 
       <main className="content">
-        <img
-          className="texture"
-          src="/texture.jpg"
-          alt=""
-          aria-hidden="true"
-        />
+        <picture>
+          <source srcSet="/texture.webp" type="image/webp" />
+          <img className="texture" src="/texture.jpg" alt="" aria-hidden="true" />
+        </picture>
 
         <div className="video-panel">
           <video autoPlay muted playsInline loop>
