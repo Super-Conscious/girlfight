@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import './App.css'
+import ShirtGallery from './ShirtGallery'
 
 const MARQUEE_ITEMS = Array(14).fill('NO APOLOGIES.')
 
@@ -42,6 +43,7 @@ export default function App() {
   const [submitted, setSubmitted] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [emailFocused, setEmailFocused] = useState(false)
+  const [showApparel, setShowApparel] = useState(false)
 
   async function handleSubmit(e) {
     e.preventDefault()
@@ -69,12 +71,16 @@ export default function App() {
           <img className="texture" src="/texture.jpg" alt="" aria-hidden="true" />
         </picture>
 
-        <div className="video-panel">
-          <video autoPlay muted playsInline loop>
-            <source src="/GF_SPLASH_HERO.webm" type="video/webm" />
-            <source src="/GF_SPLASH_HERO_alpha.mp4" type="video/mp4" />
-          </video>
-        </div>
+        {showApparel ? (
+          <ShirtGallery />
+        ) : (
+          <div className="video-panel">
+            <video autoPlay muted playsInline loop>
+              <source src="/GF_SPLASH_HERO.webm" type="video/webm" />
+              <source src="/GF_SPLASH_HERO_alpha.mp4" type="video/mp4" />
+            </video>
+          </div>
+        )}
 
         <aside className="right-panel">
           <div className="block-coming-soon">
@@ -95,6 +101,13 @@ export default function App() {
           <div className="block-bio">
             <p>Girl Fight makes premium apparel for life in and out of the gym.</p>
           </div>
+
+          <button
+            className={`block-view-apparel${showApparel ? ' is-active' : ''}`}
+            onClick={() => setShowApparel(v => !v)}
+          >
+            View Upcoming Apparel
+          </button>
 
           <form className={`block-email${emailFocused ? ' is-focused' : ''}`} onSubmit={handleSubmit}>
             <p className="email-label">Join our fight club</p>
