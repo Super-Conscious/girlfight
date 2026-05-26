@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy:staging": "vercel deploy --scope jordan-rushs-projects 2>&1 | tee /tmp/gf-deploy.log; grep -oE 'https://girl-fight-[a-z0-9]+-jordan-rushs-projects\\.vercel\\.app' /tmp/gf-deploy.log | tail -1 | xargs -I{} vercel alias set {} girl-fight-staging.vercel.app --scope jordan-rushs-projects",
+    "deploy:prod": "vercel --prod --scope jordan-rushs-projects"
   },
   "dependencies": {
     "react": "^19.2.5",
