@@ -27,7 +27,7 @@ function InstagramIcon() {
 function SocialBar() {
   return (
     <div className="social-bar">
-      <span className="stay-tuned">Stay Tuned</span>
+      <span className="stay-tuned">Follow Us</span>
       <div className="social-icons">
         <a href="https://www.instagram.com/girlfightapparel?igsh=anlpajlwYmF6czRw" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
           <InstagramIcon />
