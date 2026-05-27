@@ -14,6 +14,8 @@
   flex-shrink: 0;
   display: flex;
   align-items: center;
+  position: relative;
+  z-index: 20;
 }
 
 .marquee-track {
@@ -47,6 +49,11 @@
   display: flex;
   overflow: hidden;
   background: var(--black);
+  transition: background 0.3s ease;
+}
+
+.content--apparel {
+  background: #494848;
 }
 
 .texture {
@@ -77,6 +84,8 @@
   display: block;
   background: transparent;
 }
+
+.video-panel .video-sm { display: none; }
 
 /* ─── Right panel ─────────────────────────────────── */
 .right-panel {
@@ -308,12 +317,20 @@
   opacity: 1;
 }
 
+@keyframes apparel-jitter {
+  0%, 22%, 100% { transform: rotate(-1.2deg) translate(0, 0); }
+  4%  { transform: rotate(-1.8deg) translate(-3px, 0); }
+  8%  { transform: rotate(-0.6deg) translate(3px, 0); }
+  13% { transform: rotate(-2deg)   translate(-2px, 1px); }
+  18% { transform: rotate(-0.8deg) translate(2px, -1px); }
+}
+
 /* View Upcoming Apparel button */
 .block-view-apparel {
   background: var(--pink);
   border: none;
   padding: 10px 14px;
-  width: 100%;
+  width: fit-content;
   cursor: pointer;
   font-family: var(--font-body);
   font-weight: 700;
@@ -325,11 +342,13 @@
   transform: rotate(-1.2deg);
   transition: transform 0.2s ease;
   display: block;
+  animation: apparel-jitter 3s ease infinite;
 }
 
 .block-view-apparel:hover,
 .block-view-apparel.is-active {
   transform: rotate(0deg);
+  animation: none;
 }
 
 /* ─── Apparel panel ────────────────────────────────── */
@@ -352,6 +371,9 @@
   width: 100%;
   height: 100%;
   max-height: 100%;
+  position: relative;
+  z-index: 2;
+  padding-right: 48px;
 }
 
 .apparel-primary {
@@ -423,7 +445,7 @@
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  border: 2px solid transparent;
+  border: 2px solid #000;
   cursor: pointer;
   padding: 0;
   flex-shrink: 0;
@@ -458,6 +480,118 @@
   transform: scaleX(-1);
 }
 
+.reverse-btn--light {
+  color: #fff;
+}
+
+/* ─── View toggle ──────────────────────────────────── */
+.apparel-view-toggle {
+  position: absolute;
+  top: 14px;
+  left: 18px;
+  display: flex;
+  gap: 4px;
+  z-index: 10;
+}
+
+.view-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  color: rgba(255, 255, 255, 0.3);
+  display: flex;
+  align-items: center;
+  transition: color 0.15s ease;
+  border-radius: 4px;
+}
+
+.view-btn:hover {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.view-btn.is-active {
+  color: #fff;
+}
+
+/* ─── Carousel ──────────────────────────────────────── */
+.apparel-carousel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  z-index: 2;
+  gap: 8px;
+}
+
+.carousel-stage {
+  flex: 1;
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel-slide {
+  position: absolute;
+  width: min(560px, 38vw);
+  left: calc(50% - min(280px, 19vw));
+  transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease;
+  will-change: transform, opacity;
+}
+
+.carousel-slide img {
+  width: 100%;
+  height: auto;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+}
+
+.carousel-slide[data-offset="0"] {
+  transform: translateX(0) scale(1);
+  opacity: 1;
+  z-index: 10;
+}
+
+.carousel-slide[data-offset="1"],
+.carousel-slide[data-offset="-1"] {
+  opacity: 0.6;
+  z-index: 5;
+  cursor: pointer;
+}
+
+.carousel-slide[data-offset="1"] {
+  transform: translateX(65%) scale(0.52);
+}
+
+.carousel-slide[data-offset="-1"] {
+  transform: translateX(-65%) scale(0.52);
+}
+
+.carousel-slide[data-offset="2"],
+.carousel-slide[data-offset="-2"] {
+  transform: translateX(0) scale(0.4);
+  opacity: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.carousel-picker {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+/* ─── Mobile slider arrows (hidden on desktop) ──────── */
+.carousel-nav {
+  display: none;
+}
+
 /* Copyright */
 .copyright {
   position: absolute;
@@ -473,8 +607,8 @@
 /* ─── Tablet ──────────────────────────────────────── */
 @media (min-width: 769px) and (max-width: 1100px) {
   .right-panel {
-    width: 260px;
-    padding: 20px 20px 20px 16px;
+    width: 340px;
+    padding: 20px 28px 20px 16px;
   }
 
   .label-coming-soon:first-child { font-size: clamp(44px, 6vw, 72px); }
@@ -483,6 +617,9 @@
   .name-block {
     font-size: clamp(30px, 4.5vw, 43px);
   }
+
+  .video-panel .video-lg { display: none; }
+  .video-panel .video-sm { display: block; }
 }
 
 /* ─── Mobile ──────────────────────────────────────── */
@@ -512,6 +649,9 @@
     flex-shrink: 0;
   }
 
+  .video-panel .video-lg { display: none; }
+  .video-panel .video-sm { display: block; }
+
   /* Right panel: full width, stacked */
   .right-panel {
     width: 100%;
@@ -521,10 +661,10 @@
     justify-content: flex-start;
   }
 
-  /* Coming soon: 16px from each screen edge on mobile */
   .block-coming-soon {
-    width: calc(100% + 16px);
-    margin-left: -8px;
+    align-self: flex-start;
+    width: calc(100% + 48px);
+    margin-left: -24px;
     padding: 13px 6px;
   }
 
@@ -537,6 +677,11 @@
 
   .email-label {
     font-size: 22px;
+  }
+
+  .block-bio,
+  .block-email {
+    width: 75%;
   }
 
   /* Apparel on mobile: stacked, scrollable */
@@ -560,6 +705,63 @@
 
   .apparel-grid {
     width: 100%;
+  }
+
+  .apparel-carousel {
+    height: auto;
+    min-height: 54vw;
+  }
+
+  /* Hide view toggle on mobile — slider only */
+  .apparel-view-toggle {
+    display: none;
+  }
+
+  .carousel-stage {
+    flex: none;
+    height: 80vw;
+  }
+
+  /* Active shirt fills the panel */
+  .carousel-slide {
+    width: 82vw;
+    left: calc(50% - 41vw);
+  }
+
+  /* Hide side shirts — one at a time */
+  .carousel-slide[data-offset="1"],
+  .carousel-slide[data-offset="-1"] {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(0) scale(1);
+  }
+
+  /* Arrow nav */
+  .carousel-nav {
+    display: flex;
+    position: absolute;
+    inset: 0;
+    justify-content: space-between;
+    align-items: center;
+    pointer-events: none;
+    z-index: 20;
+    padding: 0 4px;
+  }
+
+  .carousel-arrow {
+    pointer-events: auto;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.75);
+    padding: 12px 8px;
+    display: flex;
+    align-items: center;
+    transition: color 0.15s ease;
+  }
+
+  .carousel-arrow:active {
+    color: #fff;
   }
 
   /* Copyright: in-flow, centered */

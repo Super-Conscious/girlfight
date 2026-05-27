@@ -65,7 +65,7 @@ export default function App() {
     <div className="splash">
       <MarqueeBanner />
 
-      <main className="content">
+      <main className={`content${showApparel ? ' content--apparel' : ''}`}>
         <picture>
           <source srcSet="/texture.webp" type="image/webp" />
           <img className="texture" src="/texture.jpg" alt="" aria-hidden="true" />
@@ -75,9 +75,13 @@ export default function App() {
           <ShirtGallery />
         ) : (
           <div className="video-panel">
-            <video autoPlay muted playsInline loop>
+            <video className="video-lg" autoPlay muted playsInline loop>
               <source src="/GF_SPLASH_HERO.webm" type="video/webm" />
               <source src="/GF_SPLASH_HERO_alpha.mp4" type="video/mp4" />
+            </video>
+            <video className="video-sm" autoPlay muted playsInline loop>
+              <source src="/GF_SPLASH_HERO_sm.webm" type="video/webm" />
+              <source src="/GF_SPLASH_HERO_sm_alpha.mp4" type="video/mp4" />
             </video>
           </div>
         )}
@@ -106,7 +110,7 @@ export default function App() {
             className={`block-view-apparel${showApparel ? ' is-active' : ''}`}
             onClick={() => setShowApparel(v => !v)}
           >
-            View Upcoming Apparel
+            {showApparel ? 'View Less Apparel' : 'View Upcoming Apparel'}
           </button>
 
           <form className={`block-email${emailFocused ? ' is-focused' : ''}`} onSubmit={handleSubmit}>
