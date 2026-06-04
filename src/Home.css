@@ -1,0 +1,971 @@
+/* ═══════════════════════════════════════════════════════
+   HOME PAGE STYLES
+   All selectors prefixed hm- (home) to avoid collisions
+═══════════════════════════════════════════════════════ */
+
+.hm-page {
+  background: #fff;
+  overflow-x: hidden;
+}
+
+/* ─── Nav ──────────────────────────────────────────────── */
+.hm-nav {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 48px 10px;
+  z-index: 10;
+}
+
+.hm-nav__link {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 0.9;
+  color: var(--black);
+  text-transform: uppercase;
+  text-decoration: none;
+  letter-spacing: 0.02em;
+}
+
+.hm-nav__link:hover { opacity: 0.7; }
+
+.hm-nav__cart {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+}
+
+.hm-nav__cart img { width: 100%; height: 100%; object-fit: contain; }
+
+/* ─── Hero ─────────────────────────────────────────────── */
+.hm-hero {
+  position: relative;
+  width: 100%;
+  height: min(958px, 67vw);
+  overflow: hidden;
+  background: #1a1a1a;
+}
+
+/* Background photo (behind logo) */
+.hm-hero__bg {
+  position: absolute;
+  left: -10.28px;
+  top: -52.97px;
+  width: 1759.986px;
+  pointer-events: none;
+  transform: rotate(0.51deg);
+  transform-origin: left top;
+  z-index: 1;
+}
+
+.hm-hero__bg img {
+  width: 100%;
+  height: 1182.035px;
+  object-fit: cover;
+  display: block;
+}
+
+/* GIRLFIGHT logo — sits between bg and fg photo */
+/* Use calc() positioning to avoid overflow:hidden clipping the layout rect */
+.hm-hero__logo-wrap {
+  position: absolute;
+  left: calc(50% - 659.634px);   /* center - half of 1319.268 */
+  top: calc(50% - 384.855px);    /* center - 232.7 - half of 304.309 */
+  width: 1319.268px;
+  height: 304.309px;
+  pointer-events: none;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hm-hero__logo {
+  width: 1295.012px;
+  height: 304.309px;
+  max-width: none;
+  transform: rotate(-5.84deg);
+  display: block;
+  flex-shrink: 0;
+}
+
+/* Foreground photo (alpha cutout, sits on top of logo) */
+.hm-hero__photo {
+  position: absolute;
+  left: 60.37px;
+  top: -32.04px;
+  width: 1651.216px;
+  pointer-events: none;
+  transform: rotate(0.51deg);
+  transform-origin: left top;
+  z-index: 3;
+}
+
+.hm-hero__photo img {
+  width: 100%;
+  height: 1094.493px;
+  object-fit: cover;
+  display: block;
+}
+
+/* Xerox texture */
+.hm-hero__texture {
+  position: absolute;
+  left: -18.6px;
+  top: -170.25px;
+  width: 1603.265px;
+  mix-blend-mode: screen;
+  opacity: 0.66;
+  pointer-events: none;
+  z-index: 4;
+}
+
+.hm-hero__texture img {
+  width: 100%;
+  height: 1202.449px;
+  object-fit: cover;
+  display: block;
+}
+
+/* Yellow CTA pills */
+.hm-hero__pill {
+  position: absolute;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.hm-hero__pill span {
+  display: block;
+  background: var(--yellow);
+  padding: 3.475px 8.688px;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 41.703px;
+  line-height: 1;
+  color: var(--black);
+  text-transform: uppercase;
+  white-space: nowrap;
+  text-box-trim: trim-both;
+  text-box-edge: cap alphabetic;
+}
+
+.hm-hero__pill--streetwear {
+  left: 765px;
+  top: 642.25px;
+  transform: rotate(-6.32deg);
+}
+
+.hm-hero__pill--mentality {
+  left: 936.56px;
+  top: 685.82px;
+  transform: rotate(-6.32deg);
+}
+
+/* Shop Now CTA */
+.hm-hero__cta {
+  position: absolute;
+  bottom: 77.41px;
+  right: 87px;
+  z-index: 6;
+  transform: rotate(-6.94deg);
+}
+
+.hm-hero__shop-btn {
+  display: block;
+  background: var(--black);
+  padding: 3.506px 8.766px;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 42.077px;
+  line-height: 1;
+  color: #fff;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  transform: rotate(1.13deg);
+  text-box-trim: trim-both;
+  text-box-edge: cap alphabetic;
+}
+
+.hm-hero__shop-btn:hover { opacity: 0.9; }
+
+/* ─── Marquee ──────────────────────────────────────────── */
+.hm-marquee {
+  padding: 5px 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.hm-marquee__track {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  white-space: nowrap;
+  will-change: transform;
+  animation: marquee 24s linear infinite;
+}
+
+.hm-marquee__track span {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: currentColor;
+  flex-shrink: 0;
+}
+
+/* ─── Section 1: Brand intro + products ─────────────────── */
+.hm-s1 {
+  background: #fff;
+  padding-bottom: 24px;
+}
+
+.hm-s1__banner {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 48px 42px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  position: relative;
+}
+
+.hm-s1__titles {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+.hm-s1__title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(64px, 12.7vw, 182.739px);
+  line-height: 0.85;
+  color: var(--black);
+  text-transform: uppercase;
+  white-space: nowrap;
+  text-align: center;
+  text-box-trim: trim-both;
+  text-box-edge: cap alphabetic;
+}
+
+.hm-s1__by-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  min-height: 145px;
+}
+
+.hm-s1__created-by {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(40px, 7.3vw, 104.521px);
+  line-height: 0.85;
+  text-transform: uppercase;
+  color: var(--black);
+  white-space: nowrap;
+  text-box-trim: trim-both;
+  text-box-edge: cap alphabetic;
+}
+
+.hm-s1__helen {
+  position: absolute;
+  left: clamp(260px, 39.9vw, 575.14px);
+  top: 50%;
+  transform: translateY(-50%) rotate(4.85deg);
+  background: var(--pink);
+  padding: 10px 10px 15px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(40px, 7.3vw, 104.521px);
+  line-height: 0.85;
+  text-transform: uppercase;
+  color: var(--black);
+  white-space: nowrap;
+  text-box-trim: trim-both;
+  text-box-edge: cap alphabetic;
+}
+
+.hm-s1__maroulis {
+  position: absolute;
+  left: clamp(390px, 60.6vw, 872.77px);
+  top: 50%;
+  transform: translateY(-50%) rotate(2.79deg);
+  background: var(--pink);
+  padding: 10px 10px 15px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(40px, 7.3vw, 104.521px);
+  line-height: 0.85;
+  text-transform: uppercase;
+  color: var(--black);
+  white-space: nowrap;
+  text-box-trim: trim-both;
+  text-box-edge: cap alphabetic;
+}
+
+.hm-s1__bio {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: clamp(14px, 2.1vw, 30.789px);
+  line-height: 1;
+  color: var(--black);
+  text-transform: uppercase;
+  text-align: center;
+}
+
+/* Product cards row */
+.hm-s1__products {
+  display: flex;
+  gap: 10px;
+  padding: 10px 16px 100px;
+}
+
+.hm-product-card {
+  position: relative;
+  flex: 1;
+  aspect-ratio: 356 / 476;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  background: #999;
+}
+
+.hm-product-card__bg {
+  position: absolute;
+  inset: 0;
+}
+
+.hm-product-card__bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.hm-product-card__bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.hm-product-card__shirt {
+  position: relative;
+  z-index: 1;
+  width: 88%;
+  max-height: 73%;
+  object-fit: contain;
+  display: block;
+}
+
+/* ─── Editorial 1 (video placeholder) ───────────────────── */
+.hm-ed1 {
+  position: relative;
+  width: 100%;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 200px 0;
+}
+
+.hm-ed1__frame {
+  width: 593.641px;
+  height: 640.516px;
+  background: #111;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.hm-ed1__info {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(-18.1deg);
+  display: flex;
+  gap: 23px;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--yellow);
+  text-transform: uppercase;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* ─── Editorial 2 (green jacket photo) ──────────────────── */
+.hm-ed2 {
+  position: relative;
+  width: 100%;
+  padding: 16px 16px 200px;
+  background: #fff;
+}
+
+.hm-ed2__photo {
+  position: relative;
+  max-width: 1378px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.hm-ed2__main {
+  width: 100%;
+  aspect-ratio: 1378 / 853;
+  object-fit: cover;
+  display: block;
+}
+
+.hm-ed2__grain {
+  position: absolute;
+  top: -42.23px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1406.004px;
+  max-width: none;
+  height: 937.45px;
+  object-fit: cover;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+.hm-ed2__overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.hm-ed2__info {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(-18.1deg);
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  align-items: center;
+  width: 582px;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--yellow);
+  text-transform: uppercase;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* ─── About section ─────────────────────────────────────── */
+.hm-about {
+  position: relative;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  height: 900px;
+  background: #fff;
+  overflow: visible;
+}
+
+.hm-about__photo {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.hm-about__photo img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.hm-about__photo-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.hm-about__photo-label span {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.2;
+  color: var(--black);
+  white-space: nowrap;
+}
+
+.hm-about__tag-about {
+  position: absolute;
+  left: 45.67px;
+  top: 41px;
+  z-index: 5;
+  transform: rotate(-12.07deg);
+}
+
+.hm-about__tag-about span {
+  display: block;
+  background: var(--black);
+  padding: 2.822px 7.056px;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--yellow);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.hm-about__tag-bio {
+  position: absolute;
+  left: 155px;
+  top: 30px;
+  z-index: 5;
+  transform: rotate(1.99deg);
+  max-width: 300px;
+}
+
+.hm-about__tag-bio p {
+  background: var(--black);
+  padding: 5px 10px;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.1;
+  color: var(--yellow);
+  text-transform: uppercase;
+  text-align: justify;
+}
+
+.hm-about__intel {
+  position: absolute;
+  left: calc(60% + 62px);
+  top: calc(70% - 12px);
+  transform: rotate(-6.6deg);
+  background: var(--black);
+  padding: 10px;
+  width: 192px;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.hm-about__intel-txt {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.1;
+  color: var(--yellow);
+  text-transform: uppercase;
+}
+
+.hm-about__intel-bar {
+  height: 9px;
+  background: var(--yellow);
+  width: 100%;
+}
+
+.hm-about__intel-sub {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 6px;
+  line-height: 1.1;
+  color: var(--yellow);
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+/* ─── FAQ section ────────────────────────────────────────── */
+.hm-faq {
+  position: relative;
+  width: 100%;
+  min-height: 630px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 200px;
+}
+
+.hm-faq__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.hm-faq__bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.hm-faq__live-fast {
+  position: relative;
+  z-index: 1;
+  width: 295px;
+  height: 143px;
+  flex-shrink: 0;
+}
+
+.hm-faq__lf-pill {
+  position: absolute;
+}
+
+.hm-faq__lf-pill--1 {
+  left: -34px;
+  top: 0;
+  transform: rotate(-5.81deg);
+}
+
+.hm-faq__lf-pill--2 {
+  right: -31px;
+  bottom: 0;
+  transform: rotate(9.48deg);
+}
+
+.hm-faq__lf-pill span {
+  display: block;
+  background: var(--yellow);
+  padding: 3.506px 8.766px;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 42.077px;
+  line-height: 1;
+  color: var(--black);
+  text-transform: uppercase;
+  white-space: nowrap;
+  text-box-trim: trim-both;
+  text-box-edge: cap alphabetic;
+}
+
+.hm-faq__card {
+  position: relative;
+  z-index: 1;
+  background: var(--yellow);
+  padding: 24px;
+  width: 531px;
+  transform: rotate(-1.5deg);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex-shrink: 0;
+}
+
+.hm-faq__title {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 42.077px;
+  line-height: 1;
+  color: var(--black);
+  text-transform: uppercase;
+  text-align: center;
+  text-box-trim: trim-both;
+  text-box-edge: cap alphabetic;
+}
+
+.hm-faq__list {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--black);
+  padding: 0 10px;
+}
+
+.hm-faq__item { border-bottom: 1px solid var(--black); }
+
+.hm-faq__question {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  gap: 16px;
+  text-align: left;
+}
+
+.hm-faq__question span:first-child {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1;
+  color: var(--black);
+  flex: 1;
+}
+
+.hm-faq__icon {
+  width: 26px;
+  height: 26px;
+  border: 1px solid var(--black);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  line-height: 1;
+  flex-shrink: 0;
+  font-family: var(--font-body);
+}
+
+/* ─── Footer ─────────────────────────────────────────────── */
+.hm-footer {
+  position: relative;
+  width: 100%;
+  height: 1866px;
+  background: #000;
+  overflow: hidden;
+}
+
+.hm-footer__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.hm-footer__bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.hm-footer__bg-lighten {
+  position: absolute;
+  inset: 0;
+  background: #393939;
+  mix-blend-mode: lighten;
+}
+
+.hm-footer__texture {
+  position: absolute;
+  inset: 0;
+  mix-blend-mode: screen;
+  opacity: 0.86;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.hm-footer__texture img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* GIRLFIGHT logo block */
+.hm-footer__logo-block {
+  position: absolute;
+  top: 15px;
+  left: 49.86px;
+  width: 1335px;
+  height: 463px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.hm-footer__logo {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1310px;
+  height: 308px;
+  max-width: none;
+  transform: rotate(-5.84deg);
+  transform-origin: left top;
+  display: block;
+}
+
+.hm-footer__pill {
+  position: absolute;
+}
+
+.hm-footer__pill span {
+  display: block;
+  background: var(--yellow);
+  padding: 4.125px 10.314px;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 49.506px;
+  line-height: 1;
+  color: var(--black);
+  text-transform: uppercase;
+  white-space: nowrap;
+  text-box-trim: trim-both;
+  text-box-edge: cap alphabetic;
+}
+
+.hm-footer__pill--streetwear {
+  left: 671px;
+  top: 329px;
+  transform: rotate(1.5deg);
+}
+
+.hm-footer__pill--mentality {
+  left: 868px;
+  top: 392px;
+  transform: rotate(1.5deg);
+}
+
+/* Nav + email */
+.hm-footer__nav {
+  position: absolute;
+  top: 533px;
+  left: 64px;
+  right: 64px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  z-index: 2;
+}
+
+.hm-footer__col-head {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1.2;
+  color: #fff;
+  margin-bottom: 16px;
+}
+
+.hm-footer__col ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.hm-footer__col ul li a {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.2;
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+}
+
+.hm-footer__col ul li a:hover { color: #fff; }
+
+.hm-footer__email-col {
+  width: 810px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.hm-footer__email-head {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 19.389px;
+  line-height: 1.1;
+  color: var(--yellow);
+  text-transform: uppercase;
+}
+
+.hm-footer__email-form { width: 100%; }
+
+.hm-footer__email-field {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--yellow);
+  padding-bottom: 10px;
+}
+
+.hm-footer__email-field input {
+  background: none;
+  border: none;
+  outline: none;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 16.406px;
+  color: var(--yellow);
+  flex: 1;
+}
+
+.hm-footer__email-field input::placeholder { color: rgba(255, 251, 0, 0.5); }
+
+.hm-footer__email-field button {
+  background: none;
+  border: none;
+  color: var(--yellow);
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+  transition: transform 0.15s ease;
+}
+
+.hm-footer__email-field button:hover { transform: translateX(3px); }
+
+.hm-footer__email-thanks {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--yellow);
+}
+
+/* Wrestler character */
+.hm-footer__wrestler {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 496.67px;
+  height: 1088px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.hm-footer__wrestler img:first-child {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.hm-footer__wrestler-inner {
+  position: absolute !important;
+  top: 25px;
+  left: 24px;
+  width: 448px !important;
+  height: auto !important;
+}
+
+.hm-footer__copyright {
+  position: absolute;
+  top: 1775px;
+  left: 1226px;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.2;
+  color: #fff;
+  z-index: 3;
+  white-space: nowrap;
+}

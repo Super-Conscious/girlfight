@@ -12,9 +12,23 @@
   --font-body: 'PP Neue Montreal', 'Neue Montreal', sans-serif;
 }
 
-html, body, #root {
-  height: 100%;
+html, body {
+  min-height: 100%;
   width: 100%;
-  overflow: hidden;
   background: #000;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* Splash page locks scroll on body */
+body.is-splash {
+  overflow: hidden;
+  height: 100vh;
+}
+
+body.is-splash #root {
+  height: 100vh;
+  overflow: hidden;
 }

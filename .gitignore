@@ -24,3 +24,25 @@ dist-ssr
 *.sw?
 public/GF_SPLASH_HERO.mov
 .vercel
+
+# Large source images (use .webp versions)
+public/home/texture-hero.png
+public/home/texture-scan.png
+public/home/footer-bg.png
+public/home/film-grain.png
+public/home/faq-bg.png
+public/home/hero-photo-bg.png
+public/home/about-helen-1.png
+public/home/about-dylan.png
+public/home/about-mels.png
+public/home/editorial-2.png
+public/home/editorial-masked.png
+public/home/shirt-1.png
+public/home/shirt-2.png
+public/home/shirt-3.png
+public/home/logo-hero.png
+public/home/logo-footer.png
+public/home/cart.png
+public/home/wrestler.png
+public/home/wrestler-inner.png
+public/home/editorial-mask.png
