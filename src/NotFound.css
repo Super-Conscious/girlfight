@@ -1,0 +1,548 @@
+/* ═══ 404 "Choose Your Fighter" game ═══════════════════════════
+   Full-width page; the 1440×752 content frame scales down to fit.
+   Prefix: nf-  ·  Figma nodes 558:2211 (intro) + 551:2455 (select) */
+
+body.nf-lock { overflow: hidden; height: 100vh; }
+
+.nf-root {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 0;
+}
+
+/* shared marquee (.hm-marquee) sits full-width top + bottom */
+
+.nf-screen {
+  position: relative;
+  flex: 1;
+  width: 100%;
+  background: #000;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.nf-screen::before {            /* Xerox texture, full width, screen-blended */
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('/texture.webp') center / cover no-repeat;
+  mix-blend-mode: screen;
+  opacity: 0.86;
+  pointer-events: none;
+}
+.nf-screen--game::before { display: none; }   /* game page = solid black, no texture */
+
+.nf-frame {                     /* the design canvas — scaled to fit */
+  position: relative;
+  width: 1440px;
+  height: 752px;
+  flex-shrink: 0;
+  transform-origin: center center;
+}
+
+/* ─── GIRL FIGHT logo (provided sticker asset, has its own tilt) ─── */
+.nf-logo { display: block; height: auto; }
+.nf-logo--lg { width: 540px; }
+.nf-logo--md { width: 720px; }
+
+/* ─── pink P1 / P2 tag (two flush pills) ─────────────────────── */
+.nf-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  transform: rotate(-6.53deg);
+  white-space: nowrap;
+}
+.nf-tag__p, .nf-tag__n {
+  background: var(--pink);
+  color: #000;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 22.9px;
+  line-height: 1;
+  text-transform: uppercase;
+  padding: 3px 5px;
+}
+
+/* ─── mute / sound toggle (fixed in the screen corner) ───────── */
+.nf-mute {
+  position: absolute;
+  bottom: 16px;
+  right: 22px;
+  z-index: 10;
+  background: var(--yellow);
+  color: #000;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 6px 10px;
+  border: 3px solid #000;
+  cursor: pointer;
+  transform: rotate(-2deg);
+}
+.nf-mute:hover { transform: rotate(-2deg) scale(1.05); }
+
+/* ════════ SCREEN 1 — intro ════════ */
+.nf-intro {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+}
+.nf-intro__head { display: flex; flex-direction: column; align-items: center; }
+
+.nf-404 {
+  background: #000;
+  padding: 18px 20px 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+.nf-404__l1, .nf-404__l2 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  color: var(--yellow);
+  text-transform: uppercase;
+  line-height: 0.85;
+  text-align: center;
+  white-space: nowrap;
+  text-box-trim: trim-both;
+  text-box-edge: cap alphabetic;
+}
+.nf-404__l1 { font-size: 107px; }
+.nf-404__l2 { font-size: 80px; }
+
+.nf-buttt, .nf-stay {
+  background: #000;
+  color: var(--yellow);
+  font-family: var(--font-body);
+  font-weight: 700;
+  text-transform: uppercase;
+  text-align: center;
+}
+.nf-buttt {
+  font-size: 21.4px;
+  padding: 12px 8px;
+  margin-top: -14px;
+  transform: rotate(-2.65deg);
+}
+.nf-stay {
+  font-size: 23.6px;
+  padding: 15px;
+  margin-top: 2px;
+  transform: rotate(-2.07deg);
+}
+
+.nf-intro__logo { display: flex; flex-direction: column; align-items: center; }
+.nf-cyf {
+  background: var(--yellow);
+  color: #000;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 38.3px;
+  line-height: 1;
+  text-transform: uppercase;
+  padding: 4px 8px;
+  margin-top: -30px;
+  transform: rotate(-4.04deg);
+  position: relative;
+  z-index: 2;
+}
+
+.nf-play {
+  background: #000;
+  color: var(--pink);
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 34.5px;
+  line-height: 1;
+  text-transform: uppercase;
+  padding: 4px 8px;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.12s ease, opacity 0.12s ease;
+}
+.nf-play:hover { transform: scale(1.05) rotate(-2deg); opacity: 0.92; }
+
+/* ════════ SCREEN 2 — character select ════════ */
+.nf-select { position: absolute; inset: 0; }
+
+.nf-select__logo {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 735px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.nf-cyf--sm {
+  font-size: 27.2px;
+  padding: 3px 6px;
+  margin-top: -8px;
+  margin-left: 40px;
+  transform: rotate(1.5deg);
+  align-self: center;
+}
+
+/* left fighter (8-bit full body) */
+.nf-fighter {
+  position: absolute;
+  left: 96px;
+  top: 226px;
+  width: 170px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.nf-fighter__stage {
+  height: 410px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+.nf-sprite {
+  height: 400px;
+  width: auto;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  filter: drop-shadow(0 6px 0 rgba(0, 0, 0, 0.35));
+}
+.nf-sprite--ghost { opacity: 0.12; filter: none; }
+.nf-tag--p1 { margin-top: 10px; }
+/* P1 tag = yellow to match the yellow selector border (P2 stays pink) */
+.nf-tag--p1 .nf-tag__p, .nf-tag--p1 .nf-tag__n { background: var(--yellow); }
+
+/* P2 (computer) fighter — mirror of P1 on the right, dimmed for less emphasis */
+.nf-fighter--p2 { left: auto; right: 96px; }
+.nf-fighter--p2 .nf-tag { margin-top: 10px; }
+/* "VS" pill = black bg / yellow text (Figma 558:6607); name stays pink */
+.nf-tag--p2 .nf-tag__p { background: #000; color: var(--yellow); }
+.nf-sprite--p2 {
+  transform: scaleX(-1);          /* face the player */
+  opacity: 0.5;
+  filter: grayscale(0.5) brightness(0.82) drop-shadow(0 6px 0 rgba(0, 0, 0, 0.25));
+}
+
+/* grid */
+.nf-grid {
+  position: absolute;
+  left: 374px;
+  top: 275px;
+  width: 692px;
+  height: 432px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 5px;
+  padding: 5px;
+  background: #000;
+}
+.nf-cell {
+  position: relative;
+  padding: 0;
+  border: none;
+  overflow: hidden;
+  background: #fff;
+  cursor: pointer;
+  transition: box-shadow 0.1s ease;
+}
+.nf-cell.is-raw { background: #000; }
+.nf-cell__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  filter: grayscale(1) contrast(1.05);
+  transition: transform 0.18s ease;
+}
+.nf-cell__img--raw { filter: none; }
+.nf-cell:hover .nf-cell__img { transform: scale(1.05); }
+/* selected fighter → bold border drawn as an overlay ABOVE the image
+   (an inset box-shadow gets covered by the cell's <img>) */
+.nf-cell.is-p1, .nf-cell.is-p2 { z-index: 2; }
+.nf-cell.is-p1::after, .nf-cell.is-p2::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+}
+.nf-cell.is-p1::after { border: 7px solid var(--yellow); }
+.nf-cell.is-p2::after { border: 7px solid var(--pink); }
+
+
+/* flashing start */
+@keyframes nf-blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0.15; } }
+.nf-start {
+  position: absolute;
+  left: 50%;
+  bottom: 24px;
+  transform: translateX(-50%) rotate(-2deg);
+  background: var(--yellow);
+  color: #000;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 1;
+  text-transform: uppercase;
+  padding: 7px 18px;
+  border: none;
+  cursor: pointer;
+  z-index: 5;
+  animation: nf-blink 0.7s steps(1, end) infinite;
+}
+.nf-start:hover { animation-play-state: paused; transform: translateX(-50%) rotate(-2deg) scale(1.06); }
+
+/* ════════ SCREEN 3 — the game ════════ */
+.nf-game { position: absolute; inset: 0; overflow: hidden; }
+
+/* HUD health bars */
+.nf-hud {
+  position: absolute;
+  top: 24px;
+  left: 40px;
+  right: 40px;
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  z-index: 6;
+}
+.nf-hud__side { flex: 1; }
+.nf-hud__name {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 30px;
+  line-height: 1;
+  color: #fff;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.nf-hud__side--r { text-align: right; }
+.nf-hud__bar {
+  height: 26px;
+  border: 4px solid #000;
+  background: #2c2c2c;
+  display: flex;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.4);
+}
+.nf-hud__side--r .nf-hud__bar { justify-content: flex-end; }
+.nf-hud__fill { height: 100%; transition: width 0.12s linear; }
+.nf-hud__fill--p1 { background: var(--yellow); }
+.nf-hud__fill--p2 { background: var(--pink); }
+/* power / charge meters under the health bars */
+.nf-hud__pow { height: 9px; border: 3px solid #000; background: #1e1e1e; margin-top: 5px; display: flex; }
+.nf-hud__side--r .nf-hud__pow { justify-content: flex-end; }
+.nf-hud__pow-fill { height: 100%; transition: width 0.08s linear; }
+.nf-hud__pow-fill--p1 { background: #38e1ff; }
+.nf-hud__pow-fill--p2 { background: #ff5a2c; }
+.nf-hud__pow.is-full { animation: nf-powpulse 0.4s infinite alternate; }
+.nf-hud__pow.is-full .nf-hud__pow-fill { box-shadow: 0 0 10px currentColor; }
+@keyframes nf-powpulse { from { filter: brightness(1); } to { filter: brightness(1.7); } }
+.nf-hud__vs {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 34px;
+  line-height: 1;
+  color: var(--yellow);
+  align-self: center;
+  -webkit-text-stroke: 2px #000;
+}
+.nf-hud__lv {
+  -webkit-text-stroke: 0;
+  font-size: 14px;
+  color: #fff;
+  margin-top: 5px;
+  letter-spacing: 0.06em;
+}
+
+/* arena + wrestling mat */
+.nf-arena {
+  position: absolute;
+  inset: 0;
+  background: #0a0a16 url('/404/arena-bg.png') center / cover no-repeat;
+  image-rendering: pixelated;
+}
+.nf-mat {
+  position: absolute;
+  left: 50%;
+  bottom: 70px;
+  transform: translateX(-50%);
+  width: 1040px;
+  height: 300px;
+  border-radius: 50%;
+  background: #000;             /* black mat fill inside the ring */
+  border: 13px solid var(--yellow);
+  box-shadow: inset 0 0 0 7px #000;
+}
+.nf-mat::before {            /* inner circle line */
+  content: '';
+  position: absolute;
+  inset: 46px;
+  border-radius: 50%;
+  border: 4px solid rgba(255, 251, 0, 0.45);
+}
+.nf-mat__word {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 60px;
+  text-transform: uppercase;
+  color: rgba(255, 251, 0, 0.12);
+  letter-spacing: 0.05em;
+  transform: rotate(-3deg);
+  pointer-events: none;
+}
+
+.nf-fighter-sprite {
+  position: absolute;
+  left: 0;
+  bottom: 150px;
+  height: 320px;
+  width: auto;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  transform-origin: bottom center;
+  filter: drop-shadow(0 8px 0 rgba(0, 0, 0, 0.32));
+  will-change: transform;
+}
+.nf-fighter-sprite.is-hit {
+  filter: brightness(1.7) sepia(1) saturate(7) hue-rotate(-22deg);
+}
+.nf-fighter-sprite.is-blocking {
+  filter: brightness(0.72) drop-shadow(0 0 7px #38e1ff) drop-shadow(0 8px 0 rgba(0, 0, 0, 0.3));
+}
+.nf-fighter-sprite.is-charging {
+  animation: nf-charge 0.16s infinite alternate;
+}
+@keyframes nf-charge {
+  from { filter: brightness(1.2) drop-shadow(0 0 8px #ff2e1f) drop-shadow(0 8px 0 rgba(0, 0, 0, 0.3)); }
+  to   { filter: brightness(1.8) drop-shadow(0 0 18px #ff2e1f) drop-shadow(0 8px 0 rgba(0, 0, 0, 0.3)); }
+}
+.nf-fighter-sprite.is-super {
+  filter: brightness(1.5) drop-shadow(0 0 16px var(--yellow)) drop-shadow(0 8px 0 rgba(0, 0, 0, 0.3));
+}
+
+/* modal (rules + result) */
+.nf-modal {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.74);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+}
+.nf-modal__card {
+  background: #000;
+  border: 5px solid var(--yellow);
+  padding: 34px 44px 38px;
+  max-width: 560px;
+  text-align: center;
+}
+.nf-modal__title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 54px;
+  line-height: 1;
+  color: var(--yellow);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+.nf-modal__title--ko { color: var(--pink); font-size: 80px; }
+.nf-modal__rules {
+  list-style: none;
+  text-align: left;
+  margin: 0 auto 26px;
+  padding: 0;
+  display: inline-block;
+  color: #fff;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 19px;
+  line-height: 2.1;
+}
+.nf-modal__rules b { color: var(--yellow); }
+.nf-modal__win {
+  color: #fff;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 24px;
+  text-transform: uppercase;
+  margin-bottom: 26px;
+}
+.nf-modal__btns { display: flex; gap: 14px; justify-content: center; }
+.nf-modal__btn {
+  background: var(--pink);
+  color: #000;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 30px;
+  line-height: 1;
+  text-transform: uppercase;
+  padding: 10px 30px;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+.nf-modal__btn:hover { transform: scale(1.05) rotate(-2deg); }
+.nf-modal__btn--ghost { background: var(--yellow); }
+
+/* countdown */
+@keyframes nf-pop { 0% { transform: scale(2.2); opacity: 0; } 30% { opacity: 1; } 100% { transform: scale(1); opacity: 1; } }
+.nf-count {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 170px;
+  color: var(--yellow);
+  -webkit-text-stroke: 5px #000;
+  z-index: 15;
+  pointer-events: none;
+  animation: nf-pop 0.5s ease-out;
+}
+
+/* action banner (BLOCK! / SUPER! / SPECIAL!) */
+.nf-banner {
+  position: absolute;
+  top: 32%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 72px;
+  line-height: 1;
+  text-transform: uppercase;
+  -webkit-text-stroke: 5px #000;
+  z-index: 14;
+  pointer-events: none;
+  white-space: nowrap;
+  animation: nf-pop 0.45s ease-out;
+}
+.nf-banner--good { color: var(--yellow); }
+.nf-banner--warn { color: #ff3b2c; }
+.nf-warn { color: #ff3b2c; }

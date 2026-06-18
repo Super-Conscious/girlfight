@@ -1,0 +1,224 @@
+/* ═══════════════════════════════════════════════════════
+   SHOP ALL PAGE  (Figma 366:26883)
+   Selectors prefixed sa-; reuses hm- marquee/FAQ/footer
+═══════════════════════════════════════════════════════ */
+
+.sa-page {
+  background: #fff;
+  overflow-x: hidden;
+}
+
+/* ─── Hero ──────────────────────────────────────────────── */
+.sa-hero {
+  position: relative;
+  background: #000;
+  overflow: hidden;
+  padding: 0 24px 56px;
+}
+
+.sa-hero__texture {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1603px;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  opacity: 0.39;
+  z-index: 0;
+}
+
+.sa-hero__texture img { width: 100%; height: auto; display: block; }
+
+/* Nav */
+.sa-nav {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 24px 10px;
+}
+
+.sa-nav__logo { display: block; flex-shrink: 0; }
+.sa-nav__logo img { width: auto; height: 54px; display: block; }
+
+.sa-nav__link {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 0.9;
+  color: var(--yellow);
+  text-transform: uppercase;
+  text-decoration: none;
+  letter-spacing: 0.02em;
+}
+.sa-nav__link:hover { opacity: 0.7; }
+
+.sa-nav__cart {
+  position: relative;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  color: var(--yellow);
+}
+.sa-nav__cart:hover { opacity: 0.7; }
+
+.sa-nav__cart-count {
+  position: absolute;
+  top: -7px;
+  right: -9px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: 9px;
+  background: var(--yellow);
+  color: var(--black);
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 10px;
+  line-height: 16px;
+  text-align: center;
+}
+
+/* Heading */
+.sa-hero__heading {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 21px;
+  text-align: center;
+  padding-top: 84px;
+}
+
+.sa-hero__title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(64px, 10.5vw, 152px);
+  line-height: 0.85;
+  color: var(--yellow);
+  text-transform: uppercase;
+  text-box-trim: trim-both;
+  text-box-edge: cap alphabetic;
+}
+
+.sa-hero__body {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--yellow);
+  max-width: 1169px;
+}
+
+/* ─── Product grid ──────────────────────────────────────── */
+.sa-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 10px;
+  row-gap: 56px;
+  padding: 16px 16px 48px;
+}
+
+.sa-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12.553px;
+  text-decoration: none;
+}
+
+.sa-card__img {
+  position: relative;
+  padding: 24px 10px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sa-card__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+/* 15% darken over the checkered bg (sits below the shirt, which has z-index:1) */
+.sa-card__img::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.15);
+  pointer-events: none;
+}
+
+.sa-card__shirt {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.sa-card:hover .sa-card__shirt { transform: scale(1.04); }
+
+.sa-card__meta {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 0 10px;
+  color: var(--black);
+}
+
+.sa-card__name {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+.sa-card__price {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+/* ─── FAQ "MIND OVER BODY" decoration (Shop All variant) ─── */
+.sa-faq-bg img { object-position: center; transform: scaleX(-1); }
+
+.sa-mob {
+  position: relative;
+  z-index: 1;
+  width: 220px;
+  height: 200px;
+  flex-shrink: 0;
+}
+
+.sa-mob__pill {
+  position: absolute;
+  display: block;
+  width: fit-content;
+  background: var(--yellow);
+  padding: 3.506px 8.766px;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 42.077px;
+  line-height: 1;
+  color: var(--black);
+  text-transform: uppercase;
+  white-space: nowrap;
+  text-box-trim: trim-both;
+  text-box-edge: cap alphabetic;
+}
+
+.sa-mob__pill--mind { left: 6px;  top: 4px;   transform: rotate(24.92deg); }
+.sa-mob__pill--over { left: -6px; top: 70px;  transform: rotate(9.48deg); }
+.sa-mob__pill--body { left: 40px; top: 130px; transform: rotate(-14.68deg); }

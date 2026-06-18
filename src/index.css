@@ -18,6 +18,8 @@ html, body {
   background: #000;
 }
 
+html { scroll-behavior: smooth; }
+
 #root {
   min-height: 100vh;
 }

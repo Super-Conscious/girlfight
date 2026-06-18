@@ -1,10 +1,12 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
+import { PRODUCTS as ALL_PRODUCTS } from './products'
+import { useCart } from './CartContext'
 import './Home.css'
 
 const MARQUEE_ITEMS = Array(14).fill('No Apologies.')
 
-function HomeMarquee({ bg = '#000', color = '#fff' }) {
+export function HomeMarquee({ bg = '#000', color = '#fff' }) {
   return (
     <div className="hm-marquee" style={{ background: bg, color }} aria-hidden="true">
       <div className="hm-marquee__track">
@@ -15,51 +17,119 @@ function HomeMarquee({ bg = '#000', color = '#fff' }) {
   )
 }
 
+/* ─── Cart drawer ──────────────────────────────────── */
+export function CartDrawer() {
+  const { items, count, subtotal, isOpen, close, removeItem, updateQty } = useCart()
+
+  useEffect(() => {
+    if (!isOpen) return
+    const onKey = (e) => { if (e.key === 'Escape') close() }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [isOpen, close])
+
+  return (
+    <>
+      <div
+        className={`hm-cart__scrim${isOpen ? ' is-open' : ''}`}
+        onClick={close}
+        aria-hidden="true"
+      />
+      <aside
+        className={`hm-cart${isOpen ? ' is-open' : ''}`}
+        aria-label="Shopping cart"
+        aria-hidden={!isOpen}
+      >
+        <header className="hm-cart__head">
+          <div className="hm-cart__title">
+            <span>Your Cart</span>
+            <span className="hm-cart__count">{count}</span>
+          </div>
+          <button className="hm-cart__close" onClick={close} aria-label="Close cart">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+              <path d="M2 2L20 20M20 2L2 20" stroke="currentColor" strokeWidth="2.4" />
+            </svg>
+          </button>
+        </header>
+
+        <div className="hm-cart__body">
+          {count === 0 ? (
+            <p className="hm-cart__empty">Your cart is empty.</p>
+          ) : (
+            <ul className="hm-cart__items">
+              {items.map((i) => (
+                <li key={i.key} className="hm-cart__item">
+                  <div className="hm-cart__thumb">
+                    <img src={i.img} alt={i.name} />
+                  </div>
+                  <div className="hm-cart__item-info">
+                    <p className="hm-cart__item-name">{i.name}</p>
+                    <p className="hm-cart__item-size">
+                      Size: {i.size}{i.color ? ` · ${i.color}` : ''}
+                    </p>
+                    <div className="hm-cart__item-qty">
+                      <button onClick={() => updateQty(i.key, i.qty - 1)} aria-label="Decrease quantity">−</button>
+                      <span>{i.qty}</span>
+                      <button onClick={() => updateQty(i.key, i.qty + 1)} aria-label="Increase quantity">+</button>
+                    </div>
+                  </div>
+                  <div className="hm-cart__item-right">
+                    <span className="hm-cart__item-price">{i.price}</span>
+                    <button className="hm-cart__item-remove" onClick={() => removeItem(i.key)} aria-label="Remove item">Remove</button>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+
+        <footer className="hm-cart__foot">
+          <div className="hm-cart__subtotal">
+            <span>Subtotal</span>
+            <span className="hm-cart__price">${subtotal.toFixed(2)}</span>
+          </div>
+          <button className="hm-cart__checkout" disabled={count === 0}>Checkout</button>
+        </footer>
+      </aside>
+    </>
+  )
+}
+
 /* ─── Hero ─────────────────────────────────────────── */
-function Hero() {
+function Hero({ onCartOpen, cartCount = 0 }) {
   return (
     <section className="hm-hero">
       {/* Background photo (decorative, behind logo) */}
       <div className="hm-hero__bg" aria-hidden="true">
-        <img src="/home/hero-photo-bg.png" alt="" />
+        <img src="/home/hero-photo-bg.webp" alt="" />
       </div>
 
-      {/* GIRLFIGHT logo (sandwiched — shows through alpha of foreground photo) */}
+      {/* GIRLFIGHT logo (sandwiched — shows behind isolated subject) */}
       <div className="hm-hero__logo-wrap" aria-hidden="true">
-        <img src="/home/logo-hero.svg" alt="" className="hm-hero__logo" />
+        <img src="/girlfight-logo.webp" alt="" className="hm-hero__logo" />
       </div>
 
-      {/* Foreground photo (alpha-channel cutout of athlete) */}
+      {/* Foreground subject (background-removed cutout, layered over logo for depth) */}
       <div className="hm-hero__photo" aria-hidden="true">
-        <img src="/home/hero-photo.png" alt="" />
+        <img src="/home/hero-photo-fg.webp" alt="" />
       </div>
 
-      {/* Xerox texture overlay */}
-      <div className="hm-hero__texture" aria-hidden="true">
-        <img src="/home/texture-hero.png" alt="" />
-      </div>
-
-      {/* Yellow CTA pills */}
-      <div className="hm-hero__pill hm-hero__pill--streetwear" aria-hidden="true">
-        <span>Premium STREETWEAR.</span>
-      </div>
-      <div className="hm-hero__pill hm-hero__pill--mentality" aria-hidden="true">
-        <span>fight mentality.</span>
-      </div>
-
-      {/* Shop Now */}
-      <div className="hm-hero__cta">
-        <Link to="/shop" className="hm-hero__shop-btn">Shop Now</Link>
+      {/* Stacked CTA — flush lines, rotated */}
+      <div className="hm-hero__cta-stack">
+        <span className="hm-hero__cta-line hm-hero__cta-line--yellow">Premium STREETWEAR.</span>
+        <span className="hm-hero__cta-line hm-hero__cta-line--yellow">fight mentality.</span>
+        <Link to="/shop" className="hm-hero__cta-line hm-hero__cta-line--shop">Shop Now</Link>
       </div>
 
       {/* Nav overlay */}
       <nav className="hm-nav" aria-label="Main navigation">
         <Link to="/" className="hm-nav__link">HOME</Link>
         <Link to="/shop" className="hm-nav__link">SHOP ALL</Link>
-        <Link to="/about" className="hm-nav__link">ABOUT</Link>
+        <a href="#about" className="hm-nav__link">ABOUT</a>
         <Link to="/info" className="hm-nav__link">INFO</Link>
-        <button className="hm-nav__cart" aria-label="Cart">
+        <button className="hm-nav__cart" aria-label="Open cart" onClick={onCartOpen}>
           <img src="/home/cart.svg" alt="" />
+          {cartCount > 0 && <span className="hm-nav__cart-count">{cartCount}</span>}
         </button>
       </nav>
     </section>
@@ -67,28 +137,26 @@ function Hero() {
 }
 
 /* ─── Section 1: Brand intro + product grid ─────────── */
-const PRODUCTS = [
-  { id: 1, img: '/home/shirt-1.png', alt: 'Girl Fight Tee' },
-  { id: 2, img: '/home/shirt-2.png', alt: 'Girl Fight Tee' },
-  { id: 3, img: '/home/shirt-3.png', alt: 'Girl Fight Tee' },
-  { id: 4, img: '/home/shirt-4.png', alt: 'Girl Fight Tee' },
-]
+const PRODUCTS = ALL_PRODUCTS.slice(0, 3)
 
 function Section1() {
   return (
     <section className="hm-s1">
       <div className="hm-s1__banner">
+        <img src="/home/section2-bg.webp" alt="" className="hm-s1__banner-bg" aria-hidden="true" />
         <div className="hm-s1__titles">
           <h1 className="hm-s1__title">Girl fight apparel</h1>
-          <div className="hm-s1__by-row">
-            <span className="hm-s1__created-by">created by</span>
+          <p className="hm-s1__bio">
+            Girl Fight makes combat sports apparel for&nbsp;&nbsp;dominating in and out of the gym.
+          </p>
+        </div>
+        <div className="hm-s1__by-row">
+          <span className="hm-s1__by">By</span>
+          <div className="hm-s1__name">
             <span className="hm-s1__helen">helen</span>
             <span className="hm-s1__maroulis">maroulis</span>
           </div>
         </div>
-        <p className="hm-s1__bio">
-          Girl Fight makes combat sports apparel for&nbsp;&nbsp;dominating in and out of the gym.
-        </p>
       </div>
 
       <div className="hm-s1__products">
@@ -97,10 +165,15 @@ function Section1() {
             <div className="hm-product-card__bg" aria-hidden="true">
               <img src="/home/product-bg.png" alt="" />
             </div>
-            <img src={p.img} alt={p.alt} className="hm-product-card__shirt" />
+            <img src={p.img} alt={p.name} className="hm-product-card__shirt" />
           </Link>
         ))}
       </div>
+
+      <Link to="/shop" className="hm-s1__shop-all">
+        <span className="hm-s1__shop-all-label">Shop all</span>
+        <span className="hm-s1__shop-all-arrow" aria-hidden="true">→</span>
+      </Link>
     </section>
   )
 }
@@ -109,11 +182,18 @@ function Section1() {
 function Editorial1() {
   return (
     <section className="hm-ed1">
-      <div className="hm-ed1__frame" aria-label="Lifestyle video placeholder" />
-      <div className="hm-ed1__info" aria-hidden="true">
-        <span>Height: 5&apos;5&quot;</span>
-        <span>wearing: fighter Tee</span>
-        <span>Color: Cream</span>
+      <div className="hm-ed1__photo">
+        <img src="/home/editorial-tee.webp" alt="Girl Fight — wearing the Fighter Tee" className="hm-ed1__main" />
+        <div className="hm-ed1__shade" aria-hidden="true" />
+        <div className="hm-ed1__info" aria-hidden="true">
+          {[0, 1, 2].map(i => (
+            <div className="hm-ed1__info-line" key={i}>
+              <span>Height: 5&rsquo;3&rdquo;</span>
+              <span>wearing: fighter Tee</span>
+              <span>Color: Dark/yellow</span>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   )
@@ -124,101 +204,320 @@ function Editorial2() {
   return (
     <section className="hm-ed2">
       <div className="hm-ed2__photo">
-        <img src="/home/editorial-1.png" alt="Girl Fight editorial" className="hm-ed2__main" />
-        <img src="/home/film-grain.png" alt="" className="hm-ed2__grain" aria-hidden="true" />
-        <img src="/home/editorial-2.png" alt="" className="hm-ed2__overlay" aria-hidden="true" />
-      </div>
-      <div className="hm-ed2__info" aria-hidden="true">
-        <span>Height: 5&apos;5&quot;</span>
-        <span>wearing: fighter jacket</span>
-        <span>Color: Dark/Light Green</span>
+        <img src="/home/editorial-jacket.webp" alt="Girl Fight — wearing the Fighter Jacket" className="hm-ed2__main" />
+        <div className="hm-ed2__info" aria-hidden="true">
+          {[0, 1, 2].map(i => (
+            <div className="hm-ed2__info-line" key={i}>
+              <span>Height: 5&rsquo;3&rdquo;</span>
+              <span>wearing: fighter jacket</span>
+              <span>Color: Dark/yellow</span>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   )
 }
 
-/* ─── About section ─────────────────────────────────────── */
-const ABOUT_PHOTOS = [
-  { img: '/home/about-helen-4.png',    label: 'Helen_Maroulis.jpeg',    style: { left: 587, top: -61,  width: 338 } },
-  { img: '/home/about-dylan.png',       label: 'Sucker_Punch.jpeg',      style: { left: 174, top: 203,  width: 173 } },
-  { img: '/home/about-img-8026.png',   label: 'Dylan_Accountant.jpeg',  style: { left: 68,  top: 680,  width: 171 } },
-  { img: '/home/about-helen-1.png',    label: 'Helen_M.jpeg',           style: { left: 1181,top: 336,  width: 281 } },
-  { img: '/home/about-helen-dylan.png',label: 'Helen_Dylan.jpeg',       style: { left: 675, top: 292,  width: 338 } },
-  { img: '/home/about-lil-dylan.png',  label: 'Lil_Dylan',             style: { left: 1273,top: -13,  width: 255 } },
-  { img: '/home/about-mels.png',        label: 'Mels.jpeg',              style: { left: 696, top: 774,  width: 211 } },
+/* ─── About / Story (endless parallax media scroll) ─────────
+   Tiles tell the Helen & Dylan story. Each tile is an image or a
+   muted-autoplay video (with an unmute toggle). To turn a tile into
+   a video, set `type: 'video'`, point `src` at an .mp4 in /public,
+   and give it a `.mp4` name — the caption icon switches automatically. */
+const SP = '/home/story/'
+const STORY_TILES = {
+  helenMaroulis:   { src: SP + 'helen-maroulis.webp',   name: 'Helen_Maroulis.jpeg',   ar: '680 / 452' },
+  dylanAccountant: { src: SP + 'dylan-accountant.webp', name: 'Dylan_Accountant.jpeg', ar: '687 / 760' },
+  lilDylan:        { src: SP + 'lil-dylan.webp',        name: 'Lil_Dylan.jpeg',        ar: '1 / 1' },
+  suckerPunch:     { src: SP + 'sucker-punch.webp',     name: 'Sucker_Punch.gif',      ar: '1 / 1' },
+  helenDylan:      { src: SP + 'helen-dylan.webp',      name: 'Helen_Dylan.jpeg',      ar: '1359 / 1178' },
+  mels:            { src: SP + 'mels.webp',             name: 'Mels.jpeg',             ar: '520 / 347' },
+  chip:            { src: SP + 'chip.webp',             name: 'Chip_GRRRR.jpeg',       ar: '680 / 1215' },
+  helenM:          { src: SP + 'helen-m.webp',          name: 'Helen_M.jpeg',          ar: '600 / 398' },
+  helenJig:        { type: 'video', src: SP + 'helen-jig.mp4', poster: SP + 'helen-jig-poster.webp', name: 'Helens_Jig.mp4',     ar: '720 / 406' },
+  lowriders:       { type: 'video', src: SP + 'lowriders.mp4', poster: SP + 'lowriders-poster.webp', name: 'Lowriders_Cool.mp4', ar: '720 / 406' },
+  couchVsCart:     { type: 'video', src: SP + 'couch-vs-cart.mp4',    poster: SP + 'couch-vs-cart-poster.webp',    name: 'Couch_vs_Cart.mp4',   ar: '720 / 480' },
+  fighters:        { type: 'video', src: SP + 'fighters.mp4',         poster: SP + 'fighters-poster.webp',         name: 'Fighters.mp4',        ar: '720 / 406' },
+  dylanWrestling:  { type: 'video', src: SP + 'dylan-wrestling.mp4',  poster: SP + 'dylan-wrestling-poster.webp',  name: 'Dylan_Wrestling.mp4', ar: '720 / 406' },
+}
+const T = STORY_TILES
+// One repeating "cell" of the scattered collage (positions/sizes from the
+// Figma frame). The cell is wider/taller than any viewport, so the canvas
+// can tile it infinitely yet the same asset is never on screen twice.
+const CELL_W = 1720
+const CELL_H = 940
+const CELL_LAYOUT = [
+  { t: T.helenMaroulis,   x: 599,  y: 28,  w: 338 },
+  { t: T.suckerPunch,     x: 147,  y: 194, w: 172 },
+  { t: T.chip,            x: 400,  y: 327, w: 197 },
+  { t: T.dylanAccountant, x: 39,   y: 410, w: 171 },
+  { t: T.helenJig,        x: 102,  y: 660, w: 338 },
+  { t: T.helenDylan,      x: 678,  y: 331, w: 338 },
+  { t: T.mels,            x: 696,  y: 774, w: 211 },
+  { t: T.lilDylan,        x: 1273, y: 8,   w: 255 },
+  { t: T.helenM,          x: 1181, y: 336, w: 281 },
+  { t: T.lowriders,       x: 1346, y: 570, w: 338 },
+  { t: T.couchVsCart,     x: 980,  y: 40,  w: 280 },
+  { t: T.fighters,        x: 980,  y: 650, w: 320 },
+  { t: T.dylanWrestling,  x: 450,  y: 720, w: 220 },
 ]
 
-function AboutSection() {
+function StoryVideo({ tile }) {
+  const ref = useRef(null)
+  const [muted, setMuted] = useState(true)
+  // Only play copies that are actually on screen (the canvas tiles many copies)
+  useEffect(() => {
+    const v = ref.current
+    if (!v) return
+    v.muted = true // React's `muted` attribute is unreliable — force it so it loads silent
+    const io = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) v.play().catch(() => {})
+      else v.pause()
+    }, { threshold: 0.15 })
+    io.observe(v)
+    return () => io.disconnect()
+  }, [])
+  const toggle = (e) => {
+    e.preventDefault(); e.stopPropagation()
+    const v = ref.current; if (!v) return
+    v.muted = !v.muted
+    setMuted(v.muted)
+    if (!v.muted) v.play().catch(() => {})
+  }
   return (
-    <section className="hm-about">
-      {/* Tags */}
-      <div className="hm-about__tag-about">
-        <span>About us</span>
-      </div>
-      <div className="hm-about__tag-bio">
-        <p>Helen &amp; Dylan met in Los Angeles and traveled the World on a top secret mission for The United States of America, which will be detailed below. Girl Fight was the outcome of said mission.</p>
-      </div>
+    <>
+      <video ref={ref} src={tile.src} poster={tile.poster} muted loop playsInline preload="none" />
+      <button type="button" className="hm-story__mute" onClick={toggle}
+              aria-label={muted ? 'Unmute video' : 'Mute video'}>
+        {muted
+          ? <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4zm2-7.3-1.3 1.3A8 8 0 0 1 18.5 12a8 8 0 0 1-1.3 6l1.3 1.3A10 10 0 0 0 20.5 12a10 10 0 0 0-2-7.3z"/><line x1="3" y1="3" x2="21" y2="21" stroke="currentColor" strokeWidth="2"/></svg>
+          : <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4zm2-7.3-1.3 1.3A8 8 0 0 1 18.5 12a8 8 0 0 1-1.3 6l1.3 1.3A10 10 0 0 0 20.5 12a10 10 0 0 0-2-7.3z"/></svg>}
+      </button>
+    </>
+  )
+}
 
-      {/* Redacted intel */}
-      <div className="hm-about__intel">
-        <p className="hm-about__intel-txt">we discovered</p>
-        <div className="hm-about__intel-bar" />
-        <p className="hm-about__intel-txt">&amp; will take that intel to our graves.</p>
-        <p className="hm-about__intel-sub">*Selections redacted by the CIA and FBI.</p>
+function StoryTile({ tile }) {
+  const isVideo = tile.type === 'video'
+  return (
+    <figure className="hm-story__tile">
+      <div className="hm-story__media" style={{ aspectRatio: tile.ar }}>
+        {isVideo
+          ? <StoryVideo tile={tile} />
+          : <img src={tile.src} alt="" />}
       </div>
+      <figcaption className="hm-story__cap">
+        <span className="hm-story__cap-name">{tile.name}</span>
+        {isVideo
+          ? <img className="hm-story__cap-mp4" src={SP + 'icon-mp4.svg'} alt="" />
+          : (
+            <span className="hm-story__cap-icons">
+              <img src={SP + 'icon-video2d.svg'} alt="" />
+              <img src={SP + 'icon-camera.svg'} alt="" />
+            </span>
+          )}
+      </figcaption>
+    </figure>
+  )
+}
 
-      {/* Scattered photos */}
-      {ABOUT_PHOTOS.map((p, i) => (
-        <div
-          key={i}
-          className="hm-about__photo"
-          style={{ left: p.style.left + 'px', top: p.style.top + 'px', width: p.style.width + 'px' }}
-        >
-          <img src={p.img} alt="" />
-          <div className="hm-about__photo-label">
-            <span>{p.label}</span>
-          </div>
+function StoryCell({ x, y, positions }) {
+  return (
+    <div className="hm-story__cell" style={{ left: x, top: y }}>
+      {CELL_LAYOUT.map((it, i) => (
+        <div key={i} data-ti={i} className="hm-story__slot"
+             style={{ left: positions[i].x, top: positions[i].y, width: it.w, zIndex: positions[i].z }}>
+          <StoryTile tile={it.t} />
         </div>
       ))}
+    </div>
+  )
+}
+
+function AboutSection() {
+  const viewportRef = useRef(null)
+  const worldRef = useRef(null)
+  const [grid, setGrid] = useState({ cols: 4, rows: 4 })
+  // Live per-tile positions (so individual tiles can be dragged around).
+  // `positionsRef` is the source of truth mutated during a drag; `positions`
+  // is the rendered snapshot, committed once on pointer-up to avoid
+  // re-rendering (and reloading) videos on every mouse move.
+  const positionsRef = useRef(CELL_LAYOUT.map((it) => ({ x: it.x, y: it.y, z: 1 })))
+  const [positions, setPositions] = useState(() => positionsRef.current.map((p) => ({ ...p })))
+
+  useEffect(() => {
+    const vp = viewportRef.current
+    const world = worldRef.current
+    if (!vp || !world) return
+    const s = { x: -120, y: -80, vx: 0, vy: 0, dragging: false, tile: null, lastX: 0, lastY: 0, moved: false, raf: 0 }
+
+    const computeGrid = () => setGrid({
+      cols: Math.ceil(vp.clientWidth / CELL_W) + 1,
+      rows: Math.ceil(vp.clientHeight / CELL_H) + 1,
+    })
+    computeGrid()
+    window.addEventListener('resize', computeGrid)
+
+    const apply = () => {
+      const wrapX = (((s.x % CELL_W) + CELL_W) % CELL_W) - CELL_W
+      const wrapY = (((s.y % CELL_H) + CELL_H) % CELL_H) - CELL_H
+      world.style.transform = `translate3d(${wrapX}px, ${wrapY}px, 0)`
+    }
+    const tick = () => {
+      if (!s.dragging) {
+        s.x += s.vx; s.y += s.vy
+        s.vx *= 0.93; s.vy *= 0.93
+        if (Math.abs(s.vx) < 0.04) s.vx = 0
+        if (Math.abs(s.vy) < 0.04) s.vy = 0
+      }
+      apply()
+      s.raf = requestAnimationFrame(tick)
+    }
+    s.raf = requestAnimationFrame(tick)
+
+    // No pointer capture: capturing would retarget the click to the viewport
+    // and the video unmute button would never fire. Track move/up on window
+    // instead so the drag stays robust even if the cursor leaves the section.
+    // When `s.tile` is set we're dragging an individual tile; otherwise a
+    // press on empty/black space pans the whole canvas.
+    let zTop = CELL_LAYOUT.length
+    const onDown = (e) => {
+      // Reset BEFORE the control guard: otherwise a stale `moved` from the
+      // previous drag survives, and the capture-phase onClick below eats the
+      // first mute-button click after any pan.
+      s.moved = false
+      // Don't start a drag when pressing a control (e.g. the unmute button),
+      // otherwise the click gets treated as a drag and never reaches the button.
+      if (e.target.closest('.hm-story__mute')) return
+      s.lastX = e.clientX; s.lastY = e.clientY
+      s.vx = 0; s.vy = 0
+      const slot = e.target.closest('.hm-story__slot')
+      if (slot) {
+        // Grab this tile. It's tiled once per cell, so move every copy in sync
+        // (and lift it above the others).
+        const idx = Number(slot.dataset.ti)
+        const els = world.querySelectorAll(`.hm-story__slot[data-ti="${idx}"]`)
+        positionsRef.current[idx].z = ++zTop
+        els.forEach((el) => { el.style.zIndex = zTop })
+        s.tile = { idx, els }
+      } else {
+        s.dragging = true
+      }
+      vp.classList.add('is-grabbing')
+    }
+    const onMove = (e) => {
+      const dx = e.clientX - s.lastX, dy = e.clientY - s.lastY
+      if (s.tile) {
+        if (Math.abs(dx) + Math.abs(dy) > 3) s.moved = true
+        const p = positionsRef.current[s.tile.idx]
+        p.x += dx; p.y += dy
+        s.tile.els.forEach((el) => { el.style.left = p.x + 'px'; el.style.top = p.y + 'px' })
+        s.lastX = e.clientX; s.lastY = e.clientY
+        return
+      }
+      if (!s.dragging) return
+      if (Math.abs(dx) + Math.abs(dy) > 3) s.moved = true
+      s.x += dx; s.y += dy; s.vx = dx; s.vy = dy
+      s.lastX = e.clientX; s.lastY = e.clientY
+    }
+    const onUp = () => {
+      if (s.tile) {
+        s.tile = null
+        setPositions(positionsRef.current.map((p) => ({ ...p }))) // persist new spot
+      }
+      s.dragging = false
+      vp.classList.remove('is-grabbing')
+    }
+    // Block click-throughs (e.g. video unmute) only when the press was a drag
+    const onClick = (e) => { if (s.moved) { e.preventDefault(); e.stopPropagation() } }
+
+    vp.addEventListener('pointerdown', onDown)
+    window.addEventListener('pointermove', onMove)
+    window.addEventListener('pointerup', onUp)
+    window.addEventListener('pointercancel', onUp)
+    vp.addEventListener('click', onClick, true)
+
+    return () => {
+      cancelAnimationFrame(s.raf)
+      window.removeEventListener('resize', computeGrid)
+      vp.removeEventListener('pointerdown', onDown)
+      window.removeEventListener('pointermove', onMove)
+      window.removeEventListener('pointerup', onUp)
+      window.removeEventListener('pointercancel', onUp)
+      vp.removeEventListener('click', onClick, true)
+    }
+  }, [])
+
+  return (
+    <section id="about" className="hm-story">
+      <div className="hm-story__viewport" ref={viewportRef}>
+        <div className="hm-story__world" ref={worldRef}>
+          {Array.from({ length: grid.rows }).flatMap((_, r) =>
+            Array.from({ length: grid.cols }).map((_, c) => (
+              <StoryCell key={`${r}-${c}`} x={c * CELL_W} y={r * CELL_H} positions={positions} />
+            ))
+          )}
+        </div>
+      </div>
+
+      <div className="hm-story__head">
+        <span className="hm-story__about-pill">About us</span>
+        <p className="hm-story__intro">Helen &amp; Dylan met in Los Angeles and traveled the World on a top secret mission for The United States of America, which will be detailed below. Girl Fight was the outcome of said mission.</p>
+      </div>
+
+      <div className="hm-story__intel">
+        <div className="hm-story__intel-block">
+          <p>we discovered</p>
+          <span className="hm-story__intel-bar" />
+          <p>&amp; will take that intel to our graves.</p>
+        </div>
+        <p className="hm-story__intel-sub">*Selections redacted by the CIA.</p>
+      </div>
     </section>
   )
 }
 
 /* ─── FAQ section ───────────────────────────────────────── */
+const FAQ_PLACEHOLDER = 'Placeholder answer — replace this copy with the real response. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.'
 const FAQS = [
-  'Where are our products made?',
-  'How do I know when a drop is going to happen?',
-  'Do you ship internationally?',
-  'What is your return/refund policy?',
+  { q: 'Where are our products made?', a: FAQ_PLACEHOLDER },
+  { q: 'How do I know when a drop is going to happen?', a: FAQ_PLACEHOLDER },
+  { q: 'Do you ship internationally?', a: FAQ_PLACEHOLDER },
+  { q: 'What is your return/refund policy?', a: FAQ_PLACEHOLDER },
 ]
 
-function FAQSection() {
+export function FAQSection({ bgImg = '/home/faq-bg.webp', bgClass = 'hm-faq__bg--cat', decoration }) {
   const [open, setOpen] = useState(null)
 
   return (
     <section className="hm-faq">
-      <div className="hm-faq__bg" aria-hidden="true">
-        <img src="/home/faq-bg.png" alt="" />
+      <div className={`hm-faq__bg ${bgClass}`} aria-hidden="true">
+        <img src={bgImg} alt="" />
       </div>
 
-      <div className="hm-faq__live-fast" aria-hidden="true">
-        <div className="hm-faq__lf-pill hm-faq__lf-pill--1"><span>LIVE FAST</span></div>
-        <div className="hm-faq__lf-pill hm-faq__lf-pill--2"><span>PET DOGS</span></div>
-      </div>
+      {decoration ?? (
+        <div className="hm-faq__live-fast" aria-hidden="true">
+          <div className="hm-faq__lf-pill hm-faq__lf-pill--1"><span>LIVE FAST</span></div>
+          <div className="hm-faq__lf-pill hm-faq__lf-pill--2"><span>PET DOGS</span></div>
+        </div>
+      )}
 
       <div className="hm-faq__card">
         <h2 className="hm-faq__title">F.A.q.S</h2>
         <div className="hm-faq__list">
-          {FAQS.map((q, i) => (
+          {FAQS.map((item, i) => (
             <div key={i} className={`hm-faq__item${open === i ? ' is-open' : ''}`}>
               <button
                 className="hm-faq__question"
                 onClick={() => setOpen(open === i ? null : i)}
                 aria-expanded={open === i}
               >
-                <span>{q}</span>
+                <span>{item.q}</span>
                 <span className="hm-faq__icon">{open === i ? '−' : '+'}</span>
               </button>
+              <div className="hm-faq__answer">
+                <p>{item.a}</p>
+              </div>
             </div>
           ))}
         </div>
@@ -228,7 +527,7 @@ function FAQSection() {
 }
 
 /* ─── Footer ────────────────────────────────────────────── */
-function HomeFooter() {
+export function HomeFooter() {
   const [email, setEmail] = useState('')
   const [submitted, setSubmitted] = useState(false)
   const [submitting, setSubmitting] = useState(false)
@@ -251,22 +550,20 @@ function HomeFooter() {
 
   return (
     <footer className="hm-footer">
-      <div className="hm-footer__bg" aria-hidden="true">
-        <img src="/home/footer-bg.png" alt="" />
-        <div className="hm-footer__bg-lighten" />
-      </div>
+      {/* Layering: black bg > splash Xerox texture > logo/text on top */}
       <div className="hm-footer__texture" aria-hidden="true">
-        <img src="/home/texture-scan.png" alt="" />
+        <img src="/texture.webp" alt="" />
       </div>
 
-      {/* Big GIRLFIGHT logo block */}
+      {/* Big GIRLFIGHT logo block — yellow box behind animated GIF, flush stacked pills */}
       <div className="hm-footer__logo-block" aria-hidden="true">
-        <img src="/home/logo-footer.svg" alt="" className="hm-footer__logo" />
-        <div className="hm-footer__pill hm-footer__pill--streetwear">
-          <span>Premium STREETWEAR.</span>
+        <div className="hm-footer__logo">
+          <div className="hm-footer__logo-box" />
+          <img src="/home/logo-footer.gif" alt="" className="hm-footer__logo-gif" />
         </div>
-        <div className="hm-footer__pill hm-footer__pill--mentality">
-          <span>fight mentality.</span>
+        <div className="hm-footer__cta-stack">
+          <span className="hm-footer__cta-line">Premium STREETWEAR.</span>
+          <span className="hm-footer__cta-line">fight mentality.</span>
         </div>
       </div>
 
@@ -312,10 +609,9 @@ function HomeFooter() {
         </div>
       </div>
 
-      {/* Wrestler character */}
+      {/* Lil Helen wrestler graphic */}
       <div className="hm-footer__wrestler" aria-hidden="true">
-        <img src="/home/wrestler.png" alt="" />
-        <img src="/home/wrestler-inner.png" alt="" className="hm-footer__wrestler-inner" />
+        <img src="/home/wrestler-kid.webp" alt="" />
       </div>
 
       <p className="hm-footer__copyright">@2026 Girl Fight</p>
@@ -325,14 +621,23 @@ function HomeFooter() {
 
 /* ─── Page ──────────────────────────────────────────────── */
 export default function Home() {
+  const { open, count } = useCart()
+
   useEffect(() => {
     document.body.style.background = '#fff'
     return () => { document.body.style.background = '' }
   }, [])
 
+  // Scroll to the About section when arriving via /#about from another page
+  useEffect(() => {
+    if (window.location.hash === '#about') {
+      requestAnimationFrame(() => document.getElementById('about')?.scrollIntoView())
+    }
+  }, [])
+
   return (
     <div className="hm-page">
-      <Hero />
+      <Hero onCartOpen={open} cartCount={count} />
       <HomeMarquee bg="#000" color="#fff" />
       <Section1 />
       <Editorial1 />
