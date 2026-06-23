@@ -2,7 +2,7 @@
 """Night wrestling-stadium pixel-art background for the 404 game.
 Low-res canvas → nearest-neighbor upscale (crisp pixels). Sky + stars + moon
 + stadium bowl with crowd dots + floodlights + dark arena floor."""
-from PIL import Image
+from PIL import Image, ImageDraw
 import random
 random.seed(11)
 
@@ -10,6 +10,7 @@ W, H = 360, 188
 SCALE = 5
 im = Image.new('RGB', (W, H))
 px = im.load()
+d = ImageDraw.Draw(im)
 
 def vline(x, y0, y1, col):
     for y in range(max(0, y0), min(H, y1)):
@@ -106,6 +107,28 @@ for y in range(HORIZON, H):
 for x in range(W):
     dot(x, HORIZON, (44, 40, 30)); dot(x, HORIZON + 1, (30, 27, 20))
 
-out = im.resize((W * SCALE, H * SCALE), Image.NEAREST)
-out.save('/Users/jordanrush/girl-fight/public/404/arena-bg.png')
-print('done', out.size)
+# save the plain stadium (no mat) — used for the intro/select screens
+im.resize((W * SCALE, H * SCALE), Image.NEAREST).save(
+    '/Users/jordanrush/girl-fight/public/404/stadium-bg.png')
+
+# ── wrestling mat (pixel ellipse) ─────────────────────────
+mx, my, rx, ry = 180, 134, 128, 40
+
+# transparent ring-only overlay — sits in the game frame ON TOP of the
+# full-width stadium (so the stadium isn't doubled)
+mat = Image.new('RGBA', (W, H), (0, 0, 0, 0))
+dm = ImageDraw.Draw(mat)
+dm.ellipse([mx - rx, my - ry, mx + rx, my + ry], fill=(7, 7, 9, 255))                  # black fill
+dm.ellipse([mx - rx + 15, my - ry + 7, mx + rx - 15, my + ry - 7],
+           outline=(96, 94, 22, 255), width=1)                                         # faint inner ring
+dm.ellipse([mx - rx, my - ry, mx + rx, my + ry], outline=(255, 251, 0, 255), width=3)  # yellow ring
+mat.resize((W * SCALE, H * SCALE), Image.NEAREST).save(
+    '/Users/jordanrush/girl-fight/public/404/mat-bg.png')
+
+# full scene with mat baked in (kept for reference / fallback)
+d.ellipse([mx - rx, my - ry, mx + rx, my + ry], fill=(7, 7, 9))
+d.ellipse([mx - rx + 15, my - ry + 7, mx + rx - 15, my + ry - 7], outline=(96, 94, 22), width=1)
+d.ellipse([mx - rx, my - ry, mx + rx, my + ry], outline=(255, 251, 0), width=3)
+im.resize((W * SCALE, H * SCALE), Image.NEAREST).save(
+    '/Users/jordanrush/girl-fight/public/404/arena-bg.png')
+print('done')

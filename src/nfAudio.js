@@ -8,7 +8,7 @@ let playing = false
 let step = 0
 let nextNoteTime = 0
 let timer = null
-let muted = false
+let muted = true   // start muted — user opts in via the sound button
 
 const A4 = 440
 const hz = (semi) => A4 * Math.pow(2, semi / 12) // semitones relative to A4

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { HomeMarquee, FAQSection, HomeFooter } from './Home'
 import { useCart } from './CartContext'
 import { PRODUCTS } from './products'
+import SiteNav from './SiteNav'
 import './Home.css'
 import './ShopAll.css'
 
@@ -14,21 +15,8 @@ function CartIcon() {
   )
 }
 
-function ShopNav({ onCartOpen, cartCount }) {
-  return (
-    <nav className="sa-nav" aria-label="Main navigation">
-      <Link to="/" className="sa-nav__logo" aria-label="Girl Fight home">
-        <img src="/girlfight-logo.webp" alt="Girl Fight" />
-      </Link>
-      <Link to="/shop" className="sa-nav__link">Shop All</Link>
-      <Link to="/about" className="sa-nav__link">About</Link>
-      <Link to="/info" className="sa-nav__link">Info</Link>
-      <button className="sa-nav__cart" aria-label="Open cart" onClick={onCartOpen}>
-        <CartIcon />
-        {cartCount > 0 && <span className="sa-nav__cart-count">{cartCount}</span>}
-      </button>
-    </nav>
-  )
+function ShopNav() {
+  return <SiteNav theme="dark" overlay />
 }
 
 function MindOverBody() {

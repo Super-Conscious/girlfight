@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import { HomeMarquee, HomeFooter } from './Home'
 import { useCart } from './CartContext'
 import { getLegal } from './legalContent'
+import SiteNav from './SiteNav'
 import './Home.css'
 import './LegalPage.css'
 
@@ -14,19 +15,8 @@ function CartIcon() {
   )
 }
 
-function LegalNav({ onCartOpen, cartCount }) {
-  return (
-    <nav className="lg-nav" aria-label="Main navigation">
-      <Link to="/" className="lg-nav__link">Home</Link>
-      <Link to="/shop" className="lg-nav__link">Shop All</Link>
-      <Link to="/about" className="lg-nav__link">About</Link>
-      <Link to="/info" className="lg-nav__link">Info</Link>
-      <button className="lg-nav__cart" aria-label="Open cart" onClick={onCartOpen}>
-        <CartIcon />
-        {cartCount > 0 && <span className="sa-nav__cart-count">{cartCount}</span>}
-      </button>
-    </nav>
-  )
+function LegalNav() {
+  return <SiteNav theme="light" />
 }
 
 export default function LegalPage() {

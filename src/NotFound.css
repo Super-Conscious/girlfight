@@ -20,22 +20,13 @@ body.nf-lock { overflow: hidden; height: 100vh; }
   position: relative;
   flex: 1;
   width: 100%;
-  background: #000;
+  background: #0a0a16 url('/404/stadium-bg.png') center / cover no-repeat;
+  image-rendering: pixelated;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.nf-screen::before {            /* Xerox texture, full width, screen-blended */
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: url('/texture.webp') center / cover no-repeat;
-  mix-blend-mode: screen;
-  opacity: 0.86;
-  pointer-events: none;
-}
-.nf-screen--game::before { display: none; }   /* game page = solid black, no texture */
 
 .nf-frame {                     /* the design canvas — scaled to fit */
   position: relative;
@@ -47,7 +38,7 @@ body.nf-lock { overflow: hidden; height: 100vh; }
 
 /* ─── GIRL FIGHT logo (provided sticker asset, has its own tilt) ─── */
 .nf-logo { display: block; height: auto; }
-.nf-logo--lg { width: 540px; }
+.nf-logo--lg { width: 770px; }
 .nf-logo--md { width: 720px; }
 
 /* ─── pink P1 / P2 tag (two flush pills) ─────────────────────── */
@@ -67,6 +58,17 @@ body.nf-lock { overflow: hidden; height: 100vh; }
   line-height: 1;
   text-transform: uppercase;
   padding: 3px 5px;
+}
+.nf-tag__nwrap { display: inline-flex; flex-direction: column; align-items: flex-start; }
+.nf-tag__sub {
+  margin-top: 4px;
+  margin-left: 2px;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--pink);
 }
 
 /* ─── mute / sound toggle (fixed in the screen corner) ───────── */
@@ -97,51 +99,7 @@ body.nf-lock { overflow: hidden; height: 100vh; }
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 24px;
-}
-.nf-intro__head { display: flex; flex-direction: column; align-items: center; }
-
-.nf-404 {
-  background: #000;
-  padding: 18px 20px 22px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 5px;
-}
-.nf-404__l1, .nf-404__l2 {
-  font-family: var(--font-display);
-  font-weight: 800;
-  color: var(--yellow);
-  text-transform: uppercase;
-  line-height: 0.85;
-  text-align: center;
-  white-space: nowrap;
-  text-box-trim: trim-both;
-  text-box-edge: cap alphabetic;
-}
-.nf-404__l1 { font-size: 107px; }
-.nf-404__l2 { font-size: 80px; }
-
-.nf-buttt, .nf-stay {
-  background: #000;
-  color: var(--yellow);
-  font-family: var(--font-body);
-  font-weight: 700;
-  text-transform: uppercase;
-  text-align: center;
-}
-.nf-buttt {
-  font-size: 21.4px;
-  padding: 12px 8px;
-  margin-top: -14px;
-  transform: rotate(-2.65deg);
-}
-.nf-stay {
-  font-size: 23.6px;
-  padding: 15px;
-  margin-top: 2px;
-  transform: rotate(-2.07deg);
+  gap: 44px;
 }
 
 .nf-intro__logo { display: flex; flex-direction: column; align-items: center; }
@@ -150,25 +108,73 @@ body.nf-lock { overflow: hidden; height: 100vh; }
   color: #000;
   font-family: var(--font-body);
   font-weight: 700;
-  font-size: 38.3px;
+  font-size: 43px;
   line-height: 1;
   text-transform: uppercase;
-  padding: 4px 8px;
+  padding: 5px 10px;
   margin-top: -30px;
   transform: rotate(-4.04deg);
   position: relative;
   z-index: 2;
 }
 
-.nf-play {
+/* row of pixel fighters */
+.nf-roster {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 6px;
+}
+.nf-roster__char {
+  height: 195px;
+  width: auto;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  filter: drop-shadow(0 5px 0 rgba(0, 0, 0, 0.3));
+}
+
+/* bottom action row */
+.nf-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+}
+.nf-actions__msg { display: flex; flex-direction: column; align-items: center; gap: 7px; }
+.nf-actions__exist, .nf-actions__home, .nf-actions__or {
   background: #000;
+  font-family: var(--font-body);
+  font-weight: 700;
+  text-transform: uppercase;
+  line-height: 1.1;
+  text-align: center;
+}
+.nf-actions__exist { color: var(--yellow); font-size: 18.8px; padding: 7px; }
+.nf-actions__home {
+  color: var(--yellow);
+  font-size: 20.8px;
+  padding: 7px 13px;
+  transform: rotate(-4.21deg);
+}
+.nf-actions__link { color: inherit; text-decoration: underline; }
+.nf-actions__link:hover { color: var(--pink); }
+.nf-actions__or {
   color: var(--pink);
+  font-size: 34.5px;
+  padding: 3px 8px;
+  line-height: 1;
+  transform: rotate(-7.36deg);
+}
+
+.nf-play {
+  background: var(--yellow);
+  color: #000;
   font-family: var(--font-body);
   font-weight: 700;
   font-size: 34.5px;
   line-height: 1;
   text-transform: uppercase;
-  padding: 4px 8px;
+  padding: 4px 9px;
   border: none;
   cursor: pointer;
   transition: transform 0.12s ease, opacity 0.12s ease;
@@ -218,7 +224,8 @@ body.nf-lock { overflow: hidden; height: 100vh; }
   width: auto;
   image-rendering: pixelated;
   image-rendering: crisp-edges;
-  filter: drop-shadow(0 6px 0 rgba(0, 0, 0, 0.35));
+  /* P1 = subtle yellow aura (drop-shadow follows the sprite's alpha shape) */
+  filter: drop-shadow(0 0 6px rgba(255, 251, 0, 0.5)) drop-shadow(0 6px 0 rgba(0, 0, 0, 0.35));
 }
 .nf-sprite--ghost { opacity: 0.12; filter: none; }
 .nf-tag--p1 { margin-top: 10px; }
@@ -232,8 +239,8 @@ body.nf-lock { overflow: hidden; height: 100vh; }
 .nf-tag--p2 .nf-tag__p { background: #000; color: var(--yellow); }
 .nf-sprite--p2 {
   transform: scaleX(-1);          /* face the player */
-  opacity: 0.5;
-  filter: grayscale(0.5) brightness(0.82) drop-shadow(0 6px 0 rgba(0, 0, 0, 0.25));
+  /* computer = subtle pink aura, full opacity */
+  filter: drop-shadow(0 0 6px rgba(255, 133, 241, 0.5)) drop-shadow(0 6px 0 rgba(0, 0, 0, 0.3));
 }
 
 /* grid */
@@ -255,7 +262,7 @@ body.nf-lock { overflow: hidden; height: 100vh; }
   padding: 0;
   border: none;
   overflow: hidden;
-  background: #fff;
+  background: #000;   /* black so any subpixel seam around a photo isn't a white line */
   cursor: pointer;
   transition: box-shadow 0.1s ease;
 }
@@ -303,9 +310,9 @@ body.nf-lock { overflow: hidden; height: 100vh; }
   border: none;
   cursor: pointer;
   z-index: 5;
-  animation: nf-blink 0.7s steps(1, end) infinite;
+  animation: nf-blink 1.4s steps(1, end) infinite;
 }
-.nf-start:hover { animation-play-state: paused; transform: translateX(-50%) rotate(-2deg) scale(1.06); }
+.nf-start:hover { animation: none; opacity: 1; transform: translateX(-50%) rotate(-2deg) scale(1.06); }
 
 /* ════════ SCREEN 3 — the game ════════ */
 .nf-game { position: absolute; inset: 0; overflow: hidden; }
@@ -376,7 +383,9 @@ body.nf-lock { overflow: hidden; height: 100vh; }
 .nf-arena {
   position: absolute;
   inset: 0;
-  background: #0a0a16 url('/404/arena-bg.png') center / cover no-repeat;
+  /* only the mat ring (transparent elsewhere) — the full-width stadium comes
+     from .nf-screen, so it spans the whole width and isn't doubled */
+  background: url('/404/mat-bg.png') center / cover no-repeat;
   image-rendering: pixelated;
 }
 .nf-mat {
@@ -445,19 +454,21 @@ body.nf-lock { overflow: hidden; height: 100vh; }
 
 /* modal (rules + result) */
 .nf-modal {
-  position: absolute;
+  /* portaled to <body>, so fixed inset:0 fills the whole viewport — the
+     lightbox spans the full screen width, not just the scaled game frame */
+  position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.74);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 20;
+  z-index: 1000;
 }
 .nf-modal__card {
   background: #000;
   border: 5px solid var(--yellow);
   padding: 34px 44px 38px;
-  max-width: 560px;
+  max-width: min(560px, 90vw);
   text-align: center;
 }
 .nf-modal__title {

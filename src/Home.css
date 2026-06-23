@@ -359,7 +359,7 @@
   width: 1340px;
   height: auto;          /* keep the asset's true aspect ratio */
   max-width: none;
-  transform: rotate(-2.5deg);  /* asset already carries a slight tilt */
+  transform: rotate(0.5deg);  /* asset's baked tilt + 3° clockwise */
   display: block;
   flex-shrink: 0;
 }
@@ -679,7 +679,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 100px 0;
+  padding: 100px 0 200px;
 }
 
 .hm-ed1__photo {
@@ -738,60 +738,6 @@
 
 .hm-ed1__info-line:not(:last-child) { margin-bottom: -23px; }
 
-/* ─── Editorial 2 (green jacket photo) ──────────────────── */
-.hm-ed2 {
-  position: relative;
-  width: 100%;
-  padding: 16px 16px 100px;
-  background: #000;
-  display: flex;
-  justify-content: center;
-}
-
-.hm-ed2__photo {
-  position: relative;
-  width: 100%;
-  max-width: 1378px;
-  height: 700px;
-  overflow: hidden;
-}
-
-.hm-ed2__main {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.hm-ed2__info {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  flex-direction: column;
-  gap: 120px;
-  align-items: center;
-  width: 582px;
-  pointer-events: none;
-}
-
-.hm-ed2__info-line {
-  display: flex;
-  gap: 23px;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  transform: rotate(-18.1deg);
-  font-family: var(--font-body);
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 1;
-  color: var(--yellow);
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-
 /* ─── About / Story (endless parallax media scroll) ──────── */
 .hm-story {
   position: relative;
@@ -808,6 +754,28 @@
   cursor: grab;
   touch-action: none;
   user-select: none;
+}
+
+/* subtle blinking hint that the canvas is draggable */
+.hm-story__hint {
+  position: absolute;
+  left: 50%;
+  bottom: 26px;
+  transform: translateX(-50%);
+  z-index: 6;
+  pointer-events: none;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--yellow);
+  white-space: nowrap;
+  animation: hm-hint-blink 1.6s ease-in-out infinite;
+}
+@keyframes hm-hint-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.28; } }
+@media (prefers-reduced-motion: reduce) {
+  .hm-story__hint { animation: none; opacity: 0.85; }
 }
 
 .hm-story__viewport.is-grabbing { cursor: grabbing; }
@@ -1183,72 +1151,20 @@
 .hm-footer__logo-block {
   position: absolute;
   top: 15px;
-  left: 49.86px;
-  width: 1335.138px;
-  height: 462.397px;
+  left: 50%;
+  width: min(1335.138px, 88vw);   /* fluid cap so it never overflows narrow screens */
+  height: auto;                    /* hug the image (aspect-driven) */
   z-index: 2;
   pointer-events: none;
-  transform: scale(1.08);
+  transform: translateX(-50%) scale(1.08);
   transform-origin: top center;
 }
 
-/* Logo group: rotated container holding yellow box + animated GIF */
-.hm-footer__logo {
-  position: absolute;
-  left: 12.3px;
-  top: 65.6px;
-  width: 1310.172px;
-  height: 307.871px;
-  transform: rotate(-5.84deg);
-}
-
-.hm-footer__logo-box {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 1205.1px;   /* hugs the GIF text (1170 + 3%) */
-  height: 243.08px;  /* 236 + 3% */
-  transform: translate(-50%, -50%) rotate(4.25deg);
-  background: var(--yellow);
-}
-
-.hm-footer__logo-gif {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 1147.923px;   /* 1275.47 × 0.9 — 10% smaller */
-  height: 372.005px;   /* 413.339 × 0.9 */
-  max-width: none;
-  transform: translate(-50%, -50%) rotate(8.45deg);
+/* Single baked-in lockup: graffiti logo + "Premium streetwear / Fight mentality" pills */
+.hm-footer__logo-full {
   display: block;
-}
-
-/* Flush stacked pills, rotated 1.5deg */
-.hm-footer__cta-stack {
-  position: absolute;
-  top: 314px;
-  right: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  transform: rotate(1.5deg);
-  transform-origin: top right;
-}
-
-.hm-footer__cta-line {
-  display: block;
-  width: fit-content;
-  background: var(--yellow);
-  padding: 4.125px 10.314px;
-  font-family: var(--font-body);
-  font-weight: 700;
-  font-size: 49.506px;
-  line-height: 1;
-  color: var(--black);
-  text-transform: uppercase;
-  white-space: nowrap;
-  text-box-trim: trim-both;
-  text-box-edge: cap alphabetic;
+  width: 100%;
+  height: auto;       /* asset aspect (2.885) ≈ the block's, so it fills it */
 }
 
 /* Nav + email */

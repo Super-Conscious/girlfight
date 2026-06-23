@@ -1,7 +1,14 @@
 import { useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { blip, thud, koJingle, loseSfx } from './nfAudio'
 
 const SPR = '/404/sprites/'
+
+/* Modal scrim rendered to <body> so the lightbox fills the whole viewport
+   instead of being trapped inside the scaled-down 404 game frame. */
+function Modal({ children }) {
+  return createPortal(<div className="nf-modal">{children}</div>, document.body)
+}
 
 /* ── tunables ─────────────────────────────────────────────── */
 const X_MIN = 300, X_MAX = 1140
@@ -209,7 +216,6 @@ export default function NotFoundGame({ player, opponents, onExit }) {
       </div>
 
       <div className="nf-arena">
-        <div className="nf-mat" aria-hidden="true" />
         <img ref={p1Ref} className="nf-fighter-sprite" src={SPR + player.key + '.png'} alt={player.name} />
         <img ref={p2Ref} className="nf-fighter-sprite" src={SPR + opp.key + '.png'} alt={opp.name} />
       </div>
@@ -217,7 +223,7 @@ export default function NotFoundGame({ player, opponents, onExit }) {
       {banner && <div className={`nf-banner nf-banner--${banner.cls}`} key={banner.text + Math.random()}>{banner.text}</div>}
 
       {phase === 'rules' && (
-        <div className="nf-modal">
+        <Modal>
           <div className="nf-modal__card">
             <h2 className="nf-modal__title">How to Fight</h2>
             <ul className="nf-modal__rules">
@@ -229,39 +235,39 @@ export default function NotFoundGame({ player, opponents, onExit }) {
             </ul>
             <button className="nf-modal__btn" onClick={() => setPhase('countdown')}>Fight!</button>
           </div>
-        </div>
+        </Modal>
       )}
 
       {phase === 'countdown' && <div className="nf-count" key={count}>{count}</div>}
 
       {phase === 'cleared' && (
-        <div className="nf-modal"><div className="nf-modal__card">
+        <Modal><div className="nf-modal__card">
           <h2 className="nf-modal__title">Level {level} Cleared!</h2>
           {nextOpp && <p className="nf-modal__win">Next up: {nextOpp.name}</p>}
           <button className="nf-modal__btn" onClick={nextLevel}>Next Fight →</button>
-        </div></div>
+        </div></Modal>
       )}
 
       {phase === 'won' && (
-        <div className="nf-modal"><div className="nf-modal__card">
+        <Modal><div className="nf-modal__card">
           <h2 className="nf-modal__title">You Win!</h2>
           <p className="nf-modal__win">Champion of the mat 🏆</p>
           <div className="nf-modal__btns">
             <button className="nf-modal__btn" onClick={restart}>Play Again</button>
             <button className="nf-modal__btn nf-modal__btn--ghost" onClick={onExit}>← Fighters</button>
           </div>
-        </div></div>
+        </div></Modal>
       )}
 
       {phase === 'lost' && (
-        <div className="nf-modal"><div className="nf-modal__card">
+        <Modal><div className="nf-modal__card">
           <h2 className="nf-modal__title nf-modal__title--ko">You Lose!</h2>
           <p className="nf-modal__win">Level {level} of {LEVELS}</p>
           <div className="nf-modal__btns">
             <button className="nf-modal__btn" onClick={retry}>Try Again</button>
             <button className="nf-modal__btn nf-modal__btn--ghost" onClick={onExit}>← Fighters</button>
           </div>
-        </div></div>
+        </div></Modal>
       )}
     </div>
   )

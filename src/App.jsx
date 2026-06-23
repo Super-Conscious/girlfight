@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { CartProvider } from './CartContext'
 import { CartDrawer } from './Home'
 import Home from './Home'
@@ -19,7 +19,8 @@ export default function App() {
           <Route path="/product/:id" element={<ProductPage />} />
           <Route path="/legal/:slug" element={<LegalPage />} />
           <Route path="/splash" element={<Splash />} />
-          <Route path="*" element={<NotFound />} />
+          <Route path="/404" element={<NotFound />} />
+          <Route path="*" element={<Navigate to="/404" replace />} />
         </Routes>
       </BrowserRouter>
     </CartProvider>

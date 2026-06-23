@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import { Link } from 'react-router-dom'
 import { HomeMarquee } from './Home'
 import { startMusic, blip, selectSfx, startSfx, setMuted, getMuted } from './nfAudio'
 import NotFoundGame from './NotFoundGame'
@@ -35,21 +36,25 @@ const Logo = ({ variant }) => (
 function Intro({ onPlay }) {
   return (
     <div className="nf-intro">
-      <div className="nf-intro__head">
-        <div className="nf-404">
-          <p className="nf-404__l1">this page</p>
-          <p className="nf-404__l2">do not exist</p>
-        </div>
-        <div className="nf-buttt">buttt...</div>
-        <div className="nf-stay">Stay for a while, play a game.</div>
-      </div>
-
       <div className="nf-intro__logo">
         <Logo variant="lg" />
         <div className="nf-cyf">choose your fighter</div>
       </div>
 
-      <button type="button" className="nf-play" onClick={onPlay}>play now</button>
+      <div className="nf-roster">
+        {CHARACTERS.map((c) => (
+          <img key={c.key} className="nf-roster__char" src={SPR + c.key + '.png'} alt={c.name} />
+        ))}
+      </div>
+
+      <div className="nf-actions">
+        <div className="nf-actions__msg">
+          <div className="nf-actions__exist">404 Error: Page not found</div>
+          <div className="nf-actions__home">You could&nbsp;<Link to="/" className="nf-actions__link">go home</Link></div>
+        </div>
+        <div className="nf-actions__or">or</div>
+        <button type="button" className="nf-play" onClick={onPlay}>play now</button>
+      </div>
     </div>
   )
 }
@@ -98,7 +103,10 @@ function Select({ p1, p2, onPick, onStart }) {
         </div>
         <div className="nf-tag nf-tag--p2">
           <span className="nf-tag__p">VS</span>
-          <span className="nf-tag__n">{p2 != null ? CHARACTERS[p2].name : '???????'}</span>
+          <span className="nf-tag__nwrap">
+            <span className="nf-tag__n">{p2 != null ? CHARACTERS[p2].name : '???????'}</span>
+            <span className="nf-tag__sub">computer</span>
+          </span>
         </div>
       </div>
 
@@ -115,10 +123,10 @@ function MuteButton() {
     <button
       type="button"
       className="nf-mute"
-      aria-label={m ? 'Unmute' : 'Mute'}
-      onClick={() => { const nm = !m; setMuted(nm); setM(nm); if (!nm) blip() }}
+      aria-label={m ? 'Turn sound on' : 'Turn sound off'}
+      onClick={() => { startMusic(); const nm = !m; setMuted(nm); setM(nm); if (!nm) blip() }}
     >
-      {m ? 'MUTE ✕' : 'SOUND ♪'}
+      {m ? 'SOUND ON ♪' : 'SOUND OFF'}
     </button>
   )
 }
@@ -143,7 +151,12 @@ export default function NotFound() {
 
   useEffect(() => {
     document.body.classList.add('nf-lock')
-    return () => document.body.classList.remove('nf-lock')
+    const prevTitle = document.title
+    document.title = '404'
+    return () => {
+      document.body.classList.remove('nf-lock')
+      document.title = prevTitle
+    }
   }, [])
 
   const play = () => {
@@ -171,7 +184,7 @@ export default function NotFound() {
             <NotFoundGame player={CHARACTERS[p1]} opponents={buildLadder(p1, p2)} onExit={() => setScreen('select')} />
           )}
         </div>
-        {screen !== 'intro' && <MuteButton />}
+        <MuteButton />
       </div>
       <HomeMarquee bg="#FFFB00" color="#000" />
     </div>

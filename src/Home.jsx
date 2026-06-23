@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { PRODUCTS as ALL_PRODUCTS } from './products'
 import { useCart } from './CartContext'
+import SiteNav from './SiteNav'
 import './Home.css'
 
 const MARQUEE_ITEMS = Array(14).fill('No Apologies.')
@@ -120,18 +121,6 @@ function Hero({ onCartOpen, cartCount = 0 }) {
         <span className="hm-hero__cta-line hm-hero__cta-line--yellow">fight mentality.</span>
         <Link to="/shop" className="hm-hero__cta-line hm-hero__cta-line--shop">Shop Now</Link>
       </div>
-
-      {/* Nav overlay */}
-      <nav className="hm-nav" aria-label="Main navigation">
-        <Link to="/" className="hm-nav__link">HOME</Link>
-        <Link to="/shop" className="hm-nav__link">SHOP ALL</Link>
-        <a href="#about" className="hm-nav__link">ABOUT</a>
-        <Link to="/info" className="hm-nav__link">INFO</Link>
-        <button className="hm-nav__cart" aria-label="Open cart" onClick={onCartOpen}>
-          <img src="/home/cart.svg" alt="" />
-          {cartCount > 0 && <span className="hm-nav__cart-count">{cartCount}</span>}
-        </button>
-      </nav>
     </section>
   )
 }
@@ -190,26 +179,6 @@ function Editorial1() {
             <div className="hm-ed1__info-line" key={i}>
               <span>Height: 5&rsquo;3&rdquo;</span>
               <span>wearing: fighter Tee</span>
-              <span>Color: Dark/yellow</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
-
-/* ─── Editorial 2: green jacket photo ──────────────────── */
-function Editorial2() {
-  return (
-    <section className="hm-ed2">
-      <div className="hm-ed2__photo">
-        <img src="/home/editorial-jacket.webp" alt="Girl Fight — wearing the Fighter Jacket" className="hm-ed2__main" />
-        <div className="hm-ed2__info" aria-hidden="true">
-          {[0, 1, 2].map(i => (
-            <div className="hm-ed2__info-line" key={i}>
-              <span>Height: 5&rsquo;3&rdquo;</span>
-              <span>wearing: fighter jacket</span>
               <span>Color: Dark/yellow</span>
             </div>
           ))}
@@ -460,6 +429,8 @@ function AboutSection() {
         </div>
       </div>
 
+      <div className="hm-story__hint" aria-hidden="true">✛ Drag to browse photos &amp; video</div>
+
       <div className="hm-story__head">
         <span className="hm-story__about-pill">About us</span>
         <p className="hm-story__intro">Helen &amp; Dylan met in Los Angeles and traveled the World on a top secret mission for The United States of America, which will be detailed below. Girl Fight was the outcome of said mission.</p>
@@ -555,16 +526,9 @@ export function HomeFooter() {
         <img src="/texture.webp" alt="" />
       </div>
 
-      {/* Big GIRLFIGHT logo block — yellow box behind animated GIF, flush stacked pills */}
+      {/* Big GIRLFIGHT logo lockup — graffiti logo + tagline pills, one baked-in image */}
       <div className="hm-footer__logo-block" aria-hidden="true">
-        <div className="hm-footer__logo">
-          <div className="hm-footer__logo-box" />
-          <img src="/home/logo-footer.gif" alt="" className="hm-footer__logo-gif" />
-        </div>
-        <div className="hm-footer__cta-stack">
-          <span className="hm-footer__cta-line">Premium STREETWEAR.</span>
-          <span className="hm-footer__cta-line">fight mentality.</span>
-        </div>
+        <img src="/home/footer-logo.webp" alt="Girl Fight — Premium streetwear. Fight mentality." className="hm-footer__logo-full" />
       </div>
 
       {/* Nav columns + email */}
@@ -574,7 +538,7 @@ export function HomeFooter() {
           <ul>
             <li><Link to="/">Home</Link></li>
             <li><Link to="/shop">Shop All</Link></li>
-            <li><Link to="/about">About Us</Link></li>
+            <li><Link to="/#about">About Us</Link></li>
             <li><Link to="/contact">Contact Us</Link></li>
           </ul>
         </div>
@@ -628,20 +592,53 @@ export default function Home() {
     return () => { document.body.style.background = '' }
   }, [])
 
-  // Scroll to the About section when arriving via /#about from another page
+  // Scroll to the About section whenever the URL hash is #about (works both on
+  // first load from another page and when clicking About while already on home)
+  const location = useLocation()
   useEffect(() => {
-    if (window.location.hash === '#about') {
+    if (location.hash === '#about') {
       requestAnimationFrame(() => document.getElementById('about')?.scrollIntoView())
+    }
+  }, [location])
+
+  // Adaptive nav color: yellow over dark sections, black over light ones.
+  // Reads which section sits under the nav line (~30px from top) on scroll.
+  const [navTheme, setNavTheme] = useState('light')
+  useEffect(() => {
+    const SECTIONS = [
+      ['.hm-hero', 'light'], ['.hm-s1', 'dark'], ['.hm-ed1', 'light'],
+      ['.hm-story', 'dark'], ['.hm-faq', 'dark'], ['.hm-footer', 'dark'],
+    ]
+    const els = SECTIONS
+      .map(([sel, t]) => [document.querySelector(sel), t])
+      .filter(([el]) => el)
+    const NAV_Y = 30
+    let raf = 0
+    const update = () => {
+      raf = 0
+      for (const [el, t] of els) {
+        const r = el.getBoundingClientRect()
+        if (r.top <= NAV_Y && r.bottom > NAV_Y) { setNavTheme(t); break }
+      }
+    }
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(update) }
+    update()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', onScroll)
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
+      if (raf) cancelAnimationFrame(raf)
     }
   }, [])
 
   return (
     <div className="hm-page">
+      <SiteNav theme={navTheme} overlay />
       <Hero onCartOpen={open} cartCount={count} />
       <HomeMarquee bg="#000" color="#fff" />
       <Section1 />
       <Editorial1 />
-      <Editorial2 />
       <AboutSection />
       <HomeMarquee bg="#000" color="#fff" />
       <FAQSection />

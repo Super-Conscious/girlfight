@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import { HomeMarquee, HomeFooter } from './Home'
 import { useCart } from './CartContext'
 import { PRODUCTS, getProduct, SIZES } from './products'
+import SiteNav from './SiteNav'
 import './Home.css'
 import './ShopAll.css'
 import './ProductPage.css'
@@ -15,21 +16,8 @@ function CartIcon() {
   )
 }
 
-function ProductNav({ onCartOpen, cartCount }) {
-  return (
-    <nav className="pp-nav" aria-label="Main navigation">
-      <Link to="/" className="pp-nav__logo" aria-label="Girl Fight home">
-        <img src="/girlfight-logo.webp" alt="Girl Fight" />
-      </Link>
-      <Link to="/shop" className="pp-nav__link">Shop All</Link>
-      <Link to="/about" className="pp-nav__link">About</Link>
-      <Link to="/info" className="pp-nav__link">Info</Link>
-      <button className="pp-nav__cart" aria-label="Open cart" onClick={onCartOpen}>
-        <CartIcon />
-        {cartCount > 0 && <span className="sa-nav__cart-count">{cartCount}</span>}
-      </button>
-    </nav>
-  )
+function ProductNav() {
+  return <SiteNav theme="light" />
 }
 
 function Accordion({ title, children }) {
