@@ -1,0 +1,122 @@
+/* ═══════════════════════════════════════════════════════════════════
+   GIRL FIGHT — TYPOGRAPHY SYSTEM
+   ───────────────────────────────────────────────────────────────────
+   Single source of truth for font families, weights, sizes & line
+   heights. Use the tokens (CSS custom properties) so size/weight stay
+   consistent across pages, OR use the opt-in utility classes (.t-*).
+
+   FONT FAMILIES
+     --font-display : Barlow Condensed   → big graffiti/condensed headings
+     --font-body    : PP Neue Montreal   → body copy, nav, labels, UI
+
+   WEIGHTS (only load what we use — avoids faux-bold)
+     Barlow Condensed : 700 · 800 · 900
+     Neue Montreal    : 400 · 500 · 700   (falls back to system sans
+                        until the licensed font files are added — see note)
+
+   HOW TO USE
+     Prefer a token:   font-size: var(--fs-lg); font-weight: var(--fw-bold);
+     Or a utility:     <h2 className="t-h2">…</h2>
+   ═══════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* ─── Font weights ─────────────────────────────────────────────── */
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-bold: 700;
+  --fw-extrabold: 800;   /* Barlow display default */
+  --fw-black: 900;       /* Barlow heaviest (page titles) */
+
+  /* ─── Body / UI type scale (fixed px) ──────────────────────────── */
+  --fs-2xs: 11px;   /* badges, counters, fine print */
+  --fs-xs: 12px;    /* captions, sub-labels */
+  --fs-sm: 14px;    /* default body, nav links, meta */
+  --fs-base: 16px;  /* primary body copy */
+  --fs-md: 18px;    /* emphasised body, FAQ questions */
+  --fs-lg: 20px;    /* option labels, small headings */
+  --fs-xl: 24px;    /* sub-headings, CTAs */
+  --fs-2xl: 32px;   /* product titles */
+  --fs-3xl: 42px;   /* pill headings (LIVE FAST, FAQ title) */
+
+  /* ─── Display type scale (fluid — clamp(min, vw, max)) ─────────── */
+  --fs-display-sm: clamp(34px, 8vw, 54px);     /* sub-hero / pill stacks */
+  --fs-display-md: clamp(44px, 9vw, 80px);     /* section headers */
+  --fs-display-lg: clamp(48px, 9vw, 118px);    /* page titles (Legal) */
+  --fs-display-xl: clamp(64px, 10.5vw, 152px); /* hero / Shop title */
+
+  /* ─── Line heights ─────────────────────────────────────────────── */
+  --lh-solid: 1;       /* display type, pills, single-line labels */
+  --lh-tight: 1.1;     /* headings */
+  --lh-snug: 1.25;     /* dense body */
+  --lh-body: 1.5;      /* paragraphs */
+
+  /* ─── Letter spacing ───────────────────────────────────────────── */
+  --ls-tight: -0.02em; /* large condensed display */
+  --ls-normal: 0.01em;
+  --ls-wide: 0.04em;   /* uppercase nav / buttons */
+  --ls-wider: 0.08em;  /* marquee */
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   UTILITY CLASSES (opt-in) — apply a complete, consistent text style.
+   These set family + size + weight + line-height + transform together.
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* Display (Barlow Condensed, uppercase, cap-trimmed) */
+.t-display-xl,
+.t-display-lg,
+.t-display-md,
+.t-display-sm {
+  font-family: var(--font-display);
+  font-weight: var(--fw-extrabold);
+  line-height: var(--lh-solid);
+  text-transform: uppercase;
+  text-box-trim: trim-both;
+  text-box-edge: cap alphabetic;
+}
+.t-display-xl { font-size: var(--fs-display-xl); }
+.t-display-lg { font-size: var(--fs-display-lg); font-weight: var(--fw-black); letter-spacing: var(--ls-tight); }
+.t-display-md { font-size: var(--fs-display-md); }
+.t-display-sm { font-size: var(--fs-display-sm); }
+
+/* Headings (Neue Montreal, uppercase) */
+.t-h1, .t-h2, .t-h3 {
+  font-family: var(--font-body);
+  font-weight: var(--fw-bold);
+  text-transform: uppercase;
+}
+.t-h1 { font-size: var(--fs-2xl); line-height: var(--lh-solid); }
+.t-h2 { font-size: var(--fs-xl); line-height: var(--lh-tight); }
+.t-h3 { font-size: var(--fs-lg); line-height: var(--lh-snug); }
+
+/* Body copy (Neue Montreal) */
+.t-body {
+  font-family: var(--font-body);
+  font-weight: var(--fw-medium);
+  font-size: var(--fs-base);
+  line-height: var(--lh-body);
+}
+.t-body-sm {
+  font-family: var(--font-body);
+  font-weight: var(--fw-regular);
+  font-size: var(--fs-sm);
+  line-height: var(--lh-body);
+}
+
+/* Eyebrow / nav link / button label (uppercase, tracked) */
+.t-label {
+  font-family: var(--font-body);
+  font-weight: var(--fw-bold);
+  font-size: var(--fs-sm);
+  line-height: var(--lh-solid);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+}
+
+/* Caption / meta */
+.t-caption {
+  font-family: var(--font-body);
+  font-weight: var(--fw-regular);
+  font-size: var(--fs-xs);
+  line-height: var(--lh-snug);
+}

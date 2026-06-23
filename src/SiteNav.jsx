@@ -63,6 +63,15 @@ export default function SiteNav({ theme = 'dark', overlay = false }) {
 
       {/* Full-screen mobile menu */}
       <div className={`gfnav__menu${menuOpen ? ' is-open' : ''}`} aria-hidden={!menuOpen}>
+        <button
+          className="gfnav__menu-close"
+          aria-label="Close menu"
+          onClick={() => setMenuOpen(false)}
+        >
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+            <path d="M3 3L25 25M25 3L3 25" stroke="currentColor" strokeWidth="2.6" />
+          </svg>
+        </button>
         <Link to="/" className="gfnav__menu-link" onClick={() => setMenuOpen(false)}>Home</Link>
         <Link to="/shop" className="gfnav__menu-link" onClick={() => setMenuOpen(false)}>Shop All</Link>
         <Link to="/#about" className="gfnav__menu-link" onClick={() => setMenuOpen(false)}>About</Link>

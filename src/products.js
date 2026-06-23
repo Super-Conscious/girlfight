@@ -99,4 +99,4 @@ export const PRODUCTS = [
 
 export const getProduct = (id) => PRODUCTS.find((p) => p.id === id)
 
-export const SIZES = ['S', 'M', 'L', 'XL', '2XL']
+export const SIZES = ['S', 'M', 'L', 'XL']

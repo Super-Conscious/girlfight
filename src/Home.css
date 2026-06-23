@@ -356,7 +356,7 @@
 }
 
 .hm-hero__logo {
-  width: 1340px;
+  width: min(1340px, 94vw);  /* scales with viewport so it never gets cut off */
   height: auto;          /* keep the asset's true aspect ratio */
   max-width: none;
   transform: rotate(0.5deg);  /* asset's baked tilt + 3° clockwise */
@@ -1332,7 +1332,6 @@
     transform: none;
     justify-content: center;
   }
-  .hm-hero__logo { width: 150vw; transform: rotate(0.5deg); }
   .hm-hero__cta-stack { bottom: 34px; right: 18px; }
 
   /* Brand banner — drop the wide aspect ratio, give it real height */

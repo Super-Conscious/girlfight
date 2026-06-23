@@ -117,6 +117,23 @@
 }
 .gfnav__menu-link:active { opacity: 0.7; }
 
+.gfnav__menu-close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--yellow);
+  cursor: pointer;
+}
+.gfnav__menu-close:active { opacity: 0.7; }
+
 body.gfnav-menu-lock { overflow: hidden; }
 
 /* ─── Breakpoint: collapse to hamburger ────────────────── */
