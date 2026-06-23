@@ -1,0 +1,272 @@
+/* ═══════════════════════════════════════════════════════
+   ACCOUNT PAGES  (Login / Create Account / My Account) — prefix ac-
+   Matches the site: white bg, black SiteNav, Barlow display titles,
+   bordered inputs, black pill buttons, yellow/pink accents.
+═══════════════════════════════════════════════════════ */
+
+.ac-page {
+  background: #fff;
+  overflow-x: hidden;
+}
+
+.ac-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 72px 24px 120px;
+}
+
+/* ─── Auth card (login / register) ──────────────────────── */
+.ac-card {
+  width: 100%;
+  max-width: 440px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.ac-eyebrow {
+  display: inline-block;
+  background: var(--yellow);
+  color: var(--black);
+  padding: 4px 9px;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  transform: rotate(-2deg);
+  margin-bottom: 18px;
+}
+
+.ac-title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(44px, 8vw, 80px);
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+  color: var(--black);
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.ac-sub {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.3;
+  color: #555;
+  margin-top: 12px;
+}
+
+/* ─── Form ──────────────────────────────────────────────── */
+.ac-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-top: 36px;
+  text-align: left;
+}
+
+.ac-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ac-flabel {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--black);
+}
+
+.ac-input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid var(--black);
+  background: #fff;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 16px;
+  color: var(--black);
+}
+.ac-input::placeholder { color: #aaa; }
+.ac-input:focus { outline: 2px solid var(--black); outline-offset: -1px; }
+
+.ac-submit {
+  width: 100%;
+  margin-top: 6px;
+  padding: 16px;
+  background: var(--black);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  transition: opacity 0.2s ease;
+}
+.ac-submit:hover { opacity: 0.88; }
+
+/* ─── Alt links ─────────────────────────────────────────── */
+.ac-alt {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 28px;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 14px;
+  color: #555;
+}
+
+.ac-link {
+  color: var(--black);
+  font-weight: 700;
+  text-decoration: underline;
+  transition: color 0.18s ease;
+}
+.ac-link:hover { color: var(--pink); }
+.ac-link--pink { color: var(--pink); }
+.ac-link--pink:hover { color: var(--black); }
+
+/* ─── Dashboard ─────────────────────────────────────────── */
+.ac-main--dash {
+  align-items: stretch;
+  max-width: 1040px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.ac-dash-head {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 48px;
+}
+
+.ac-dash-head .ac-title { text-align: left; }
+
+.ac-greeting {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 18px;
+  text-transform: uppercase;
+  color: var(--black);
+}
+
+.ac-greeting-pill {
+  display: inline-block;
+  background: var(--pink);
+  color: var(--black);
+  padding: 4px 9px;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  transform: rotate(-2deg);
+}
+
+.ac-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.ac-block {
+  border: 1px solid var(--black);
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+}
+
+.ac-block__h {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--black);
+  padding-bottom: 18px;
+  margin-bottom: 22px;
+  border-bottom: 1px solid var(--black);
+}
+
+.ac-empty {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 1.4;
+  color: #777;
+}
+
+.ac-block__cta {
+  align-self: flex-start;
+  margin-top: 18px;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--black);
+  text-decoration: underline;
+  transition: color 0.18s ease;
+}
+.ac-block__cta:hover { color: var(--pink); }
+
+.ac-details {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.ac-detail dt {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #999;
+  margin-bottom: 4px;
+}
+.ac-detail dd {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 16px;
+  color: var(--black);
+}
+
+.ac-logout {
+  align-self: flex-start;
+  margin-top: 28px;
+  padding: 12px 24px;
+  background: #fff;
+  color: var(--black);
+  border: 1px solid var(--black);
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+.ac-logout:hover { background: var(--black); color: #fff; }
+
+/* ─── Responsive ────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .ac-main { padding: 48px 20px 96px; }
+  .ac-grid { grid-template-columns: 1fr; }
+  .ac-dash-head { margin-bottom: 32px; }
+}

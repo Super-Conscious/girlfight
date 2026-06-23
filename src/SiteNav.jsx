@@ -9,6 +9,12 @@ const CartGlyph = () => (
   </svg>
 )
 
+const AccountGlyph = () => (
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+  </svg>
+)
+
 /* Shared site nav (Figma 366:26887). theme: 'dark' = yellow (over dark
    pages), 'light' = black (over white pages). overlay = absolute over a hero.
    On <= 900px the links collapse into a hamburger → full-screen menu. */
@@ -39,15 +45,23 @@ export default function SiteNav({ theme = 'dark', overlay = false }) {
       <div className="gfnav__right">
         <Link to="/shop" className="gfnav__link">Shop All</Link>
         <Link to="/#about" className="gfnav__link">About</Link>
-        <button className="gfnav__cart" aria-label="Open cart" onClick={open}>
-          <CartGlyph />
-          {count > 0 && <span className="gfnav__cart-count">{count}</span>}
-        </button>
+        <span className="gfnav__icons">
+          <Link to="/account" className="gfnav__icon" aria-label="Account">
+            <AccountGlyph />
+          </Link>
+          <button className="gfnav__icon" aria-label="Open cart" onClick={open}>
+            <CartGlyph />
+            {count > 0 && <span className="gfnav__cart-count">{count}</span>}
+          </button>
+        </span>
       </div>
 
-      {/* Mobile controls (cart + hamburger) */}
+      {/* Mobile controls (account + cart + hamburger) */}
       <div className="gfnav__mobile">
-        <button className="gfnav__cart" aria-label="Open cart" onClick={open}>
+        <Link to="/account" className="gfnav__icon" aria-label="Account" onClick={() => setMenuOpen(false)}>
+          <AccountGlyph />
+        </Link>
+        <button className="gfnav__icon" aria-label="Open cart" onClick={open}>
           <CartGlyph />
           {count > 0 && <span className="gfnav__cart-count">{count}</span>}
         </button>
@@ -75,6 +89,7 @@ export default function SiteNav({ theme = 'dark', overlay = false }) {
         <Link to="/" className="gfnav__menu-link" onClick={() => setMenuOpen(false)}>Home</Link>
         <Link to="/shop" className="gfnav__menu-link" onClick={() => setMenuOpen(false)}>Shop All</Link>
         <Link to="/#about" className="gfnav__menu-link" onClick={() => setMenuOpen(false)}>About</Link>
+        <Link to="/account" className="gfnav__menu-link" onClick={() => setMenuOpen(false)}>Account</Link>
         <button
           className="gfnav__menu-link gfnav__menu-cart"
           onClick={() => { setMenuOpen(false); open() }}
