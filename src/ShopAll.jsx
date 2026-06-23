@@ -47,13 +47,6 @@ export default function ShopAll() {
         <ShopNav onCartOpen={open} cartCount={count} />
         <div className="sa-hero__heading">
           <h1 className="sa-hero__title">Premium STREETWEAR.<br />fight mentality.</h1>
-          <p className="sa-hero__body">
-            Girl/Fight builds street-driven fight wear designed to move with you through every
-            part of the work. From hard training sessions to daily life, our apparel is made to
-            hold up under pressure, carry confidence, and represent the discipline it takes to
-            show up and put in the work. This is gear for fighters who don&rsquo;t turn it off
-            when they leave the gym because strength is a mindset, not a moment.
-          </p>
         </div>
       </header>
 

@@ -104,6 +104,7 @@
   text-transform: uppercase;
   text-box-trim: trim-both;
   text-box-edge: cap alphabetic;
+  transform: rotate(-1deg);
 }
 
 .sa-hero__body {
@@ -120,7 +121,7 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   column-gap: 10px;
-  row-gap: 56px;
+  row-gap: 24px;
   padding: 16px 16px 48px;
 }
 
@@ -161,7 +162,7 @@
 .sa-card__shirt {
   position: relative;
   z-index: 1;
-  width: 100%;
+  width: 90%;
   height: auto;
   object-fit: contain;
   transition: transform 0.3s ease;

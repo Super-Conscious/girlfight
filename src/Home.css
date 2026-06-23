@@ -1369,6 +1369,8 @@
 
 /* ─── Tablet ───────────────────────────────────────────── */
 @media (max-width: 1024px) {
+  /* let the subtitle wrap naturally instead of forcing the break */
+  .hm-s1__bio-br { display: none; }
   .hm-faq { padding: 56px 40px; }
   .hm-footer__nav { left: 40px; right: 40px; }
   .hm-footer__email-col { width: auto; flex: 1; margin-left: 32px; }

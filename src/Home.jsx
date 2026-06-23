@@ -165,7 +165,7 @@ function Section1() {
         <BannerSlideshow />
         <div className="hm-s1__titles">
           <p className="hm-s1__bio">
-            Girl Fight makes combat sports apparel for <br />dominating in and out of the gym.
+            Girl Fight makes combat sports apparel for <br className="hm-s1__bio-br" />dominating in and out of the gym.
           </p>
         </div>
         <div className="hm-s1__by-row">
