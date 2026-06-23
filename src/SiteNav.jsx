@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useCart } from './CartContext'
 import './SiteNav.css'
@@ -9,21 +10,67 @@ const CartGlyph = () => (
 )
 
 /* Shared site nav (Figma 366:26887). theme: 'dark' = yellow (over dark
-   pages), 'light' = black (over white pages). overlay = absolute over a hero. */
+   pages), 'light' = black (over white pages). overlay = absolute over a hero.
+   On <= 900px the links collapse into a hamburger → full-screen menu. */
 export default function SiteNav({ theme = 'dark', overlay = false }) {
   const { open, count } = useCart()
+  const [menuOpen, setMenuOpen] = useState(false)
   const logo = theme === 'light' ? '/shop/nav-logo-black.svg' : '/shop/nav-logo.svg'
+
+  // lock body scroll + close on Escape while the mobile menu is open
+  useEffect(() => {
+    if (!menuOpen) return
+    const onKey = (e) => e.key === 'Escape' && setMenuOpen(false)
+    window.addEventListener('keydown', onKey)
+    document.body.classList.add('gfnav-menu-lock')
+    return () => {
+      window.removeEventListener('keydown', onKey)
+      document.body.classList.remove('gfnav-menu-lock')
+    }
+  }, [menuOpen])
+
   return (
     <nav className={`gfnav gfnav--${theme}${overlay ? ' gfnav--overlay' : ''}`} aria-label="Main navigation">
-      <Link to="/" className="gfnav__logo" aria-label="Girl Fight home">
+      <Link to="/" className="gfnav__logo" aria-label="Girl Fight home" onClick={() => setMenuOpen(false)}>
         <img src={logo} alt="Girl Fight" />
       </Link>
+
+      {/* Desktop links */}
       <div className="gfnav__right">
         <Link to="/shop" className="gfnav__link">Shop All</Link>
         <Link to="/#about" className="gfnav__link">About</Link>
         <button className="gfnav__cart" aria-label="Open cart" onClick={open}>
           <CartGlyph />
           {count > 0 && <span className="gfnav__cart-count">{count}</span>}
+        </button>
+      </div>
+
+      {/* Mobile controls (cart + hamburger) */}
+      <div className="gfnav__mobile">
+        <button className="gfnav__cart" aria-label="Open cart" onClick={open}>
+          <CartGlyph />
+          {count > 0 && <span className="gfnav__cart-count">{count}</span>}
+        </button>
+        <button
+          className={`gfnav__burger${menuOpen ? ' is-open' : ''}`}
+          aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+          aria-expanded={menuOpen}
+          onClick={() => setMenuOpen(v => !v)}
+        >
+          <span /><span /><span />
+        </button>
+      </div>
+
+      {/* Full-screen mobile menu */}
+      <div className={`gfnav__menu${menuOpen ? ' is-open' : ''}`} aria-hidden={!menuOpen}>
+        <Link to="/" className="gfnav__menu-link" onClick={() => setMenuOpen(false)}>Home</Link>
+        <Link to="/shop" className="gfnav__menu-link" onClick={() => setMenuOpen(false)}>Shop All</Link>
+        <Link to="/#about" className="gfnav__menu-link" onClick={() => setMenuOpen(false)}>About</Link>
+        <button
+          className="gfnav__menu-link gfnav__menu-cart"
+          onClick={() => { setMenuOpen(false); open() }}
+        >
+          Cart{count > 0 ? ` (${count})` : ''}
         </button>
       </div>
     </nav>

@@ -1294,3 +1294,140 @@
   z-index: 3;
   white-space: nowrap;
 }
+
+/* ═══════════════════════════════════════════════════════
+   RESPONSIVE  — tablet (<=1024) and mobile (<=768 / <=480)
+═══════════════════════════════════════════════════════ */
+
+/* ─── Tablet ───────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .hm-faq { padding: 56px 40px; }
+  .hm-footer__nav { left: 40px; right: 40px; }
+  .hm-footer__email-col { width: auto; flex: 1; margin-left: 32px; }
+  .hm-footer__copyright { left: auto; right: 40px; }
+}
+
+/* ─── Mobile ───────────────────────────────────────────── */
+@media (max-width: 768px) {
+  /* Hero — cover the composition by height, center it, big logo */
+  .hm-hero { height: 78vh; min-height: 480px; }
+  .hm-hero__bg,
+  .hm-hero__photo {
+    left: 50%;
+    top: 50%;
+    width: auto;
+    transform: translate(-50%, -50%);
+    transform-origin: center;
+  }
+  .hm-hero__bg img,
+  .hm-hero__photo img {
+    width: auto;
+    height: 82vh;
+  }
+  .hm-hero__logo-wrap {
+    left: 0;
+    width: 100%;
+    top: 64px;
+    height: auto;
+    transform: none;
+    justify-content: center;
+  }
+  .hm-hero__logo { width: 150vw; transform: rotate(0.5deg); }
+  .hm-hero__cta-stack { bottom: 34px; right: 18px; }
+
+  /* Brand banner — drop the wide aspect ratio, give it real height */
+  .hm-s1__banner {
+    aspect-ratio: auto;
+    min-height: 300px;
+    padding: 36px 20px;
+    gap: 28px;
+  }
+  .hm-s1__title { font-size: 13.5vw; }
+  .hm-s1__bio { font-size: 3.4vw; }
+
+  /* Product cards — stack to a single column */
+  .hm-s1__products { flex-direction: column; gap: 12px; padding: 20px 20px 0; }
+  .hm-product-card { height: 70vw; min-height: 340px; }
+  .hm-s1__shop-all { margin: 14px 20px 20px auto; }
+  .hm-s1__shop-all-label { font-size: 34px; }
+  .hm-s1__shop-all-arrow { font-size: 46px; }
+
+  /* Editorial 1 — keep aspect ratio as it narrows */
+  .hm-ed1 { padding: 56px 0 96px; }
+  .hm-ed1__photo {
+    width: min(593.641px, 100vw - 40px);
+    height: auto;
+    aspect-ratio: 593.641 / 640.516;
+  }
+
+  /* Story canvas — shrink the fixed overlays */
+  .hm-story { height: 88vh; min-height: 560px; }
+  .hm-story__head { top: 20px; left: 20px; right: 20px; flex-direction: column; gap: 14px; max-width: none; }
+  .hm-story__about-pill { font-size: 24px; }
+  .hm-story__intro { max-width: 70vw; font-size: 13px; }
+  .hm-story__intel { right: 5%; top: auto; bottom: 64px; width: 190px; }
+  .hm-story__intel p { font-size: 13px; }
+  .hm-story__hint { font-size: 12px; bottom: 18px; }
+
+  /* FAQ — stack the pills over the accordion card */
+  .hm-faq {
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    padding: 64px 20px;
+    min-height: 0;
+  }
+  .hm-faq__live-fast { width: 280px; height: 110px; }
+  .hm-faq__lf-pill span { font-size: 34px; }
+  .hm-faq__card { width: 100%; max-width: 531px; }
+
+  /* Footer — convert the fixed-px desktop layout to normal flow */
+  .hm-footer {
+    height: auto;
+    padding: 40px 20px 48px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .hm-footer__logo-block {
+    position: static;
+    transform: none;
+    width: 100%;
+    max-width: 460px;
+    margin: 0 auto 36px;
+  }
+  .hm-footer__nav {
+    position: static;
+    left: auto;
+    right: auto;
+    top: auto;
+    flex-direction: column;
+    gap: 32px;
+    width: 100%;
+    max-width: 460px;
+  }
+  .hm-footer__email-col { width: 100%; margin-left: 0; }
+  .hm-footer__wrestler {
+    position: static;
+    transform: none;
+    width: 240px;
+    margin: 40px auto 0;
+  }
+  .hm-footer__copyright {
+    position: static;
+    left: auto;
+    right: auto;
+    top: auto;
+    margin-top: 32px;
+    text-align: center;
+    white-space: normal;
+  }
+}
+
+/* ─── Small phones ─────────────────────────────────────── */
+@media (max-width: 480px) {
+  .hm-hero__cta-line { font-size: 26px; }
+  .hm-faq__title { font-size: 34px; }
+  .hm-faq__question span:first-child { font-size: 16px; }
+  .hm-story__intel { display: none; }
+}

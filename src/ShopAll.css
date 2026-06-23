@@ -222,3 +222,29 @@
 .sa-mob__pill--mind { left: 6px;  top: 4px;   transform: rotate(24.92deg); }
 .sa-mob__pill--over { left: -6px; top: 70px;  transform: rotate(9.48deg); }
 .sa-mob__pill--body { left: 40px; top: 130px; transform: rotate(-14.68deg); }
+
+/* ═══════════════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════════════ */
+@media (max-width: 1024px) {
+  .sa-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+  .sa-hero { padding: 0 20px 40px; }
+  .sa-hero__heading { padding-top: 56px; gap: 16px; }
+  .sa-hero__body { font-size: 14px; }
+  .sa-grid {
+    grid-template-columns: 1fr;
+    column-gap: 0;
+    row-gap: 36px;
+    padding: 16px 20px 40px;
+  }
+  /* MIND OVER BODY pills stack centered above the FAQ card on mobile */
+  .sa-mob { width: 200px; height: 180px; }
+  .sa-mob__pill { font-size: 34px; }
+}
+
+@media (max-width: 480px) {
+  .sa-mob__pill { font-size: 28px; }
+}

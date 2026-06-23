@@ -128,3 +128,14 @@
 }
 
 .lg-num { margin-right: 4px; }
+
+/* ═══════════════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .lg-content { padding: 48px 20px 96px; gap: 32px; }
+  .lg-head { gap: 24px; }
+  .lg-body { gap: 32px; }
+  .lg-intro { gap: 28px; padding-top: 28px; }
+  .lg-intro p, .lg-section p { font-size: 15px; }
+}

@@ -360,3 +360,39 @@
   padding: 55.441px 11.507px;
 }
 .pp-more__card .sa-card__shirt { width: auto; max-width: 100%; max-height: 100%; }
+
+/* ═══════════════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════════════ */
+@media (max-width: 1024px) {
+  .pp-hero { gap: 32px; }
+  .pp-hero__info { width: 480px; padding: 40px 16px; }
+  .pp-hero__media { min-height: 560px; }
+}
+
+@media (max-width: 768px) {
+  /* Stack the hero: image on top, details below */
+  .pp-hero {
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px 16px 28px;
+  }
+  .pp-hero__media { flex: none; min-height: 0; aspect-ratio: 3 / 4; width: 100%; padding: 24px 16px; }
+  .pp-hero__shirt { max-height: 100%; }
+  /* zoom-on-hover is pointless on touch — show full image, normal cursor */
+  .pp-hero__shirt { cursor: default; }
+  .pp-hero__info {
+    width: 100%;
+    padding: 24px 4px 8px;
+    gap: 32px;
+  }
+  .pp-title { font-size: 28px; }
+  .pp-options { gap: 32px; }
+  .pp-add { font-size: 20px; }
+}
+
+@media (max-width: 480px) {
+  .pp-sizes { flex-wrap: wrap; }
+  .pp-options { gap: 24px; }
+  .pp-more { padding: 16px 16px 56px; }
+}

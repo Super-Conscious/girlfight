@@ -57,3 +57,78 @@
   align-items: center;
   justify-content: center;
 }
+
+/* ─── Mobile controls (hidden on desktop) ──────────────── */
+.gfnav__mobile { display: none; align-items: center; gap: 20px; }
+
+.gfnav__burger {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 30px;
+  height: 24px;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+.gfnav__burger span {
+  display: block;
+  width: 100%;
+  height: 2.5px;
+  background: currentColor;
+  border-radius: 2px;
+  transition: transform 0.25s ease, opacity 0.2s ease;
+}
+.gfnav__burger.is-open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+.gfnav__burger.is-open span:nth-child(2) { opacity: 0; }
+.gfnav__burger.is-open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
+/* ─── Full-screen mobile menu ──────────────────────────── */
+.gfnav__menu {
+  position: fixed;
+  inset: 0;
+  z-index: 95;
+  background: #000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.28s ease, visibility 0.28s ease;
+}
+.gfnav__menu.is-open { opacity: 1; visibility: visible; }
+
+.gfnav__menu-link {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(40px, 12vw, 72px);
+  line-height: 1;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: var(--yellow);
+  text-decoration: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.gfnav__menu-link:active { opacity: 0.7; }
+
+body.gfnav-menu-lock { overflow: hidden; }
+
+/* ─── Breakpoint: collapse to hamburger ────────────────── */
+@media (max-width: 900px) {
+  .gfnav { padding: 14px 20px 10px; }
+  .gfnav__right { display: none; }
+  .gfnav__mobile { display: flex; }
+  .gfnav__logo img { height: 38px; }
+  /* burger stays in brand color via currentColor (theme drives it) */
+}
+
+@media (max-width: 480px) {
+  .gfnav { padding: 12px 16px 9px; }
+  .gfnav__logo img { height: 34px; }
+}
