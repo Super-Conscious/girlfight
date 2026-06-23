@@ -1,4 +1,5 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { useEffect } from 'react'
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { CartProvider } from './CartContext'
 import { CartDrawer } from './Home'
 import Home from './Home'
@@ -8,10 +9,28 @@ import ProductPage from './ProductPage'
 import LegalPage from './LegalPage'
 import NotFound from './NotFound'
 
+/* Reset to the top of the page on every route change. Jumps instantly
+   (temporarily disabling the global `scroll-behavior: smooth`) so pages
+   never animate-scroll up from a previous position. Hash links like
+   /#about are left alone so they can scroll to their target. */
+function ScrollToTop() {
+  const { pathname, hash } = useLocation()
+  useEffect(() => {
+    if (hash) return
+    const html = document.documentElement
+    const prev = html.style.scrollBehavior
+    html.style.scrollBehavior = 'auto'
+    window.scrollTo(0, 0)
+    html.style.scrollBehavior = prev
+  }, [pathname, hash])
+  return null
+}
+
 export default function App() {
   return (
     <CartProvider>
       <BrowserRouter>
+        <ScrollToTop />
         <CartDrawer />
         <Routes>
           <Route path="/" element={<Home />} />

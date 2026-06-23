@@ -219,9 +219,9 @@
   text-box-edge: cap alphabetic;
 }
 
-.sa-mob__pill--mind { left: 6px;  top: 4px;   transform: rotate(24.92deg); }
-.sa-mob__pill--over { left: -6px; top: 70px;  transform: rotate(9.48deg); }
-.sa-mob__pill--body { left: 40px; top: 130px; transform: rotate(-14.68deg); }
+.sa-mob__pill--mind { left: 6px;  top: 0;    transform: rotate(24.92deg); }
+.sa-mob__pill--over { left: -6px; top: 40px;  transform: rotate(9.48deg); }
+.sa-mob__pill--body { left: 40px; top: 80px;  transform: rotate(-14.68deg); }
 
 /* ═══════════════════════════════════════════════════════
    RESPONSIVE

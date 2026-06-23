@@ -155,7 +155,7 @@ body.nf-lock { overflow: hidden; height: 100vh; }
   line-height: 1.1;
   text-align: center;
 }
-.nf-actions__exist { color: var(--yellow); font-size: 18.8px; padding: 7px; }
+.nf-actions__exist { color: var(--pink); font-size: 18.8px; padding: 7px; }
 .nf-actions__home {
   color: var(--yellow);
   font-size: 20.8px;
@@ -165,7 +165,7 @@ body.nf-lock { overflow: hidden; height: 100vh; }
 .nf-actions__link { color: inherit; text-decoration: underline; }
 .nf-actions__link:hover { color: var(--pink); }
 .nf-actions__or {
-  color: var(--pink);
+  color: var(--yellow);
   font-size: 34.5px;
   padding: 3px 8px;
   line-height: 1;

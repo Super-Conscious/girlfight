@@ -128,15 +128,44 @@ function Hero({ onCartOpen, cartCount = 0 }) {
 /* ─── Section 1: Brand intro + product grid ─────────── */
 const PRODUCTS = ALL_PRODUCTS.slice(0, 3)
 
+/* Cycling B&W photo background for the brand banner (like a GIF, but
+   sharp + lightweight). Crossfades through the frames on a timer. */
+const BANNER_FRAMES = [
+  '/home/banner/frame-1.webp',
+  '/home/banner/frame-2.webp',
+  '/home/banner/frame-3.webp',
+  '/home/banner/frame-4.webp',
+]
+
+function BannerSlideshow() {
+  const [active, setActive] = useState(0)
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const id = setInterval(() => setActive(a => (a + 1) % BANNER_FRAMES.length), 2200)
+    return () => clearInterval(id)
+  }, [])
+  return (
+    <div className="hm-s1__banner-bg" aria-hidden="true">
+      {BANNER_FRAMES.map((src, i) => (
+        <img
+          key={src}
+          src={src}
+          alt=""
+          className={`hm-s1__banner-frame${i === active ? ' is-active' : ''}`}
+        />
+      ))}
+    </div>
+  )
+}
+
 function Section1() {
   return (
     <section className="hm-s1">
       <div className="hm-s1__banner">
-        <img src="/home/section2-bg.webp" alt="" className="hm-s1__banner-bg" aria-hidden="true" />
+        <BannerSlideshow />
         <div className="hm-s1__titles">
-          <h1 className="hm-s1__title">Girl fight apparel</h1>
           <p className="hm-s1__bio">
-            Girl Fight makes combat sports apparel for&nbsp;&nbsp;dominating in and out of the gym.
+            Girl Fight makes combat sports apparel for <br />dominating in and out of the gym.
           </p>
         </div>
         <div className="hm-s1__by-row">
@@ -151,18 +180,19 @@ function Section1() {
       <div className="hm-s1__products">
         {PRODUCTS.map(p => (
           <Link to={`/product/${p.id}`} key={p.id} className="hm-product-card">
-            <div className="hm-product-card__bg" aria-hidden="true">
-              <img src="/home/product-bg.png" alt="" />
+            <div className="hm-product-card__img">
+              <div className="hm-product-card__bg" aria-hidden="true">
+                <img src="/home/product-bg.png" alt="" />
+              </div>
+              <img src={p.img} alt={p.name} className="hm-product-card__shirt" />
             </div>
-            <img src={p.img} alt={p.name} className="hm-product-card__shirt" />
+            <div className="hm-product-card__meta">
+              <span className="hm-product-card__name">{p.name}</span>
+              <span className="hm-product-card__price">{p.price}</span>
+            </div>
           </Link>
         ))}
       </div>
-
-      <Link to="/shop" className="hm-s1__shop-all">
-        <span className="hm-s1__shop-all-label">Shop all</span>
-        <span className="hm-s1__shop-all-arrow" aria-hidden="true">→</span>
-      </Link>
     </section>
   )
 }
@@ -171,7 +201,7 @@ function Section1() {
 function Editorial1() {
   return (
     <section className="hm-ed1">
-      <div className="hm-ed1__photo">
+      <Link to="/product/fighter" className="hm-ed1__photo" aria-label="Shop the Fighter Tee">
         <img src="/home/editorial-tee.webp" alt="Girl Fight — wearing the Fighter Tee" className="hm-ed1__main" />
         <div className="hm-ed1__shade" aria-hidden="true" />
         <div className="hm-ed1__info" aria-hidden="true">
@@ -183,7 +213,7 @@ function Editorial1() {
             </div>
           ))}
         </div>
-      </div>
+      </Link>
     </section>
   )
 }
