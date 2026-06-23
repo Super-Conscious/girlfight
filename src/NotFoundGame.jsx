@@ -10,6 +10,38 @@ function Modal({ children }) {
   return createPortal(<div className="nf-modal">{children}</div>, document.body)
 }
 
+/* On-screen touch controls — portaled to <body> so they render at real
+   viewport size instead of shrinking with the scaled .nf-frame. They mutate
+   the same g.current.keys the keyboard handler does. */
+function TouchControls({ onKey }) {
+  const press = (name) => (e) => { e.preventDefault(); onKey(name, true) }
+  const release = (name) => (e) => { e.preventDefault(); onKey(name, false) }
+  const Btn = ({ name, label, cls }) => (
+    <button
+      className={`nf-touch__btn ${cls}`}
+      onPointerDown={press(name)}
+      onPointerUp={release(name)}
+      onPointerLeave={release(name)}
+      onPointerCancel={release(name)}
+      onContextMenu={(e) => e.preventDefault()}
+      aria-label={label}
+    >{label}</button>
+  )
+  return createPortal(
+    <div className="nf-touch">
+      <div className="nf-touch__group">
+        <Btn name="left" label="◀" cls="nf-touch__btn--dir" />
+        <Btn name="right" label="▶" cls="nf-touch__btn--dir" />
+      </div>
+      <div className="nf-touch__group">
+        <Btn name="block" label="BLOCK" cls="nf-touch__btn--block" />
+        <Btn name="atk" label="HIT" cls="nf-touch__btn--atk" />
+      </div>
+    </div>,
+    document.body
+  )
+}
+
 /* ── tunables ─────────────────────────────────────────────── */
 const X_MIN = 300, X_MAX = 1140
 const SPRITE_HALF = 85
@@ -35,6 +67,7 @@ export default function NotFoundGame({ player, opponents, onExit }) {
   const [hp, setHp] = useState({ p1: 100, p2: 100 })
   const [count, setCount] = useState('3')
   const [banner, setBanner] = useState(null)
+  const [touch, setTouch] = useState(false)
 
   const opp = opponents[Math.min(level, opponents.length) - 1]
   const nextOpp = opponents[level] || null
@@ -51,6 +84,21 @@ export default function NotFoundGame({ player, opponents, onExit }) {
     clearTimeout(bannerT.current)
     bannerT.current = setTimeout(() => setBanner(null), 750)
   }
+
+  // touch buttons mutate the same key map the keyboard does
+  const setKey = (name, v) => { g.current.keys[name] = v }
+
+  // show on-screen controls on coarse-pointer (touch) devices
+  useEffect(() => {
+    const m = window.matchMedia('(pointer: coarse)')
+    setTouch(m.matches)
+    const h = (e) => setTouch(e.matches)
+    m.addEventListener?.('change', h)
+    return () => m.removeEventListener?.('change', h)
+  }, [])
+
+  // clear held keys whenever we leave the fight so nothing carries over
+  useEffect(() => { if (phase !== 'fight') g.current.keys = {} }, [phase])
 
   // keyboard (← → move, SPACE attack, ↓/S block)
   useEffect(() => {
@@ -222,13 +270,24 @@ export default function NotFoundGame({ player, opponents, onExit }) {
 
       {banner && <div className={`nf-banner nf-banner--${banner.cls}`} key={banner.text + Math.random()}>{banner.text}</div>}
 
+      {touch && (phase === 'fight' || phase === 'countdown') && <TouchControls onKey={setKey} />}
+
       {phase === 'rules' && (
         <Modal>
           <div className="nf-modal__card">
             <h2 className="nf-modal__title">How to Fight</h2>
             <ul className="nf-modal__rules">
-              <li><b>← →</b> &nbsp;move &nbsp;·&nbsp; <b>SPACE</b> &nbsp;attack</li>
-              <li><b>↓</b> &nbsp;block — cuts damage &amp; stops their special</li>
+              {touch ? (
+                <>
+                  <li><b>◀ ▶</b> &nbsp;move &nbsp;·&nbsp; <b>HIT</b> &nbsp;attack</li>
+                  <li><b>BLOCK</b> — cuts damage &amp; stops their special</li>
+                </>
+              ) : (
+                <>
+                  <li><b>← →</b> &nbsp;move &nbsp;·&nbsp; <b>SPACE</b> &nbsp;attack</li>
+                  <li><b>↓</b> &nbsp;block — cuts damage &amp; stops their special</li>
+                </>
+              )}
               <li>Land hits in a row to charge your <b>POWER</b> bar → full = <b>SUPER</b> attack</li>
               <li>When they <b className="nf-warn">glow red</b>, a special is coming — <b>block it!</b></li>
               <li>Beat all <b>{LEVELS} levels</b>. No apologies.</li>

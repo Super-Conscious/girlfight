@@ -91,6 +91,12 @@ body.nf-lock { overflow: hidden; height: 100vh; }
 }
 .nf-mute:hover { transform: rotate(-2deg) scale(1.05); }
 
+/* On touch devices the on-screen HIT button owns the bottom-right corner —
+   move the sound toggle to the top-right so they don't overlap. */
+@media (pointer: coarse) {
+  .nf-mute { bottom: auto; top: 14px; right: 14px; }
+}
+
 /* ════════ SCREEN 1 — intro ════════ */
 .nf-intro {
   position: absolute;
@@ -557,3 +563,49 @@ body.nf-lock { overflow: hidden; height: 100vh; }
 .nf-banner--good { color: var(--yellow); }
 .nf-banner--warn { color: #ff3b2c; }
 .nf-warn { color: #ff3b2c; }
+
+/* ─── On-screen touch controls (portaled to <body>, full viewport size) ─── */
+.nf-touch {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: max(18px, env(safe-area-inset-bottom));
+  z-index: 900;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 0 18px;
+  pointer-events: none;
+}
+
+.nf-touch__group {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.nf-touch__btn {
+  pointer-events: auto;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid #000;
+  border-radius: 50%;
+  background: var(--yellow);
+  color: #000;
+  font-family: var(--font-body);
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.5);
+}
+
+.nf-touch__btn:active { transform: translateY(2px) scale(0.96); box-shadow: 0 1px 0 rgba(0, 0, 0, 0.5); }
+
+.nf-touch__btn--dir { width: 64px; height: 64px; font-size: 26px; }
+.nf-touch__btn--atk { width: 88px; height: 88px; font-size: 22px; background: var(--pink); }
+.nf-touch__btn--block { width: 66px; height: 66px; font-size: 13px; letter-spacing: 0.02em; background: #fff; }
