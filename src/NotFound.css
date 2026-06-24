@@ -609,3 +609,151 @@ body.nf-lock { overflow: hidden; height: 100vh; }
 .nf-touch__btn--dir { width: 64px; height: 64px; font-size: 26px; }
 .nf-touch__btn--atk { width: 88px; height: 88px; font-size: 22px; background: var(--pink); }
 .nf-touch__btn--block { width: 66px; height: 66px; font-size: 13px; letter-spacing: 0.02em; background: #fff; }
+
+/* ════════ MOBILE (≤768px) — native layout for intro + select ════════
+   The fight arena keeps its 1440×752 fit-scale (fixed game coordinates);
+   intro/select instead flow at real device size (JS sets scale = 1). */
+@media (max-width: 768px) {
+  .nf-screen:not(.nf-screen--game) {
+    align-items: stretch;
+    justify-content: flex-start;
+  }
+  .nf-screen:not(.nf-screen--game) .nf-frame {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+  }
+
+  /* logo: keep the sticker crisp (override inherited pixelated rendering) and
+     stack it ABOVE the yellow "choose your fighter" pill */
+  .nf-logo { image-rendering: auto; position: relative; z-index: 3; }
+
+  /* smaller sound toggle on mobile */
+  .nf-mute { font-size: 11px; padding: 5px 8px; }
+
+  /* ── intro — fit the whole screen, no scroll ── */
+  .nf-intro {
+    position: static;
+    min-height: 100%;
+    justify-content: center;
+    gap: 12px;
+    padding: 10px 16px 14px;
+  }
+  .nf-logo--lg { width: 60vw; }
+  .nf-cyf { font-size: 21px; margin-top: -14px; }
+
+  /* roster → two rows of four */
+  .nf-roster {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+    width: 70vw;
+    align-items: end;
+  }
+  .nf-roster__char { height: auto; width: 100%; }
+
+  .nf-actions { flex-direction: column; gap: 9px; }
+  .nf-actions__exist { font-size: 14px; }
+  .nf-actions__home { font-size: 16px; }
+  .nf-actions__or { font-size: 24px; }
+  .nf-play { font-size: 30px; }
+
+  /* ── select — vertical reflow, fit without scroll ── */
+  .nf-select {
+    position: static;
+    display: flex;
+    flex-flow: row wrap;
+    align-content: center;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 16px;
+    min-height: 100%;
+  }
+  .nf-select__logo {
+    position: static;
+    transform: none;
+    width: 100%;
+    order: 1;
+  }
+  .nf-logo--md { width: 56vw; }
+  /* positive margin so the logo doesn't sit on top of "choose your fighter" */
+  .nf-cyf--sm { margin-left: 0; margin-top: 8px; font-size: 16px; transform: rotate(1.5deg); }
+
+  .nf-grid {
+    position: static;
+    order: 2;
+    width: 86vw;
+    height: auto;
+    aspect-ratio: 692 / 432;
+  }
+
+  .nf-fighter {
+    position: static;
+    order: 3;
+    width: 46%;
+    left: auto;
+    right: auto;
+    top: auto;
+  }
+  .nf-fighter--p2 { order: 4; }
+  .nf-fighter__stage { height: 116px; }
+  .nf-sprite { height: 108px; }
+
+  /* P1/P2 name pills — smaller text, kept on a single line */
+  .nf-tag__p, .nf-tag__n { font-size: 13px; }
+  .nf-tag__sub { font-size: 10px; }
+
+  /* lighter 2px selection outline (was 7px) */
+  .nf-cell.is-p1::after { border: 2px solid var(--yellow); }
+  .nf-cell.is-p2::after { border: 2px solid var(--pink); }
+
+  .nf-start {
+    position: static;
+    order: 5;
+    width: 100%;
+    left: auto;
+    bottom: auto;
+    transform: rotate(-2deg);
+    margin-top: 2px;
+    font-size: 24px;
+  }
+
+  /* ── game / fight ──
+     The HUD is portaled to the top (.nf-hud--fixed below); the frame holds only
+     the ring + fighters and bottom-aligns just above the touch controls. */
+  .nf-screen--game { align-items: flex-end; padding-bottom: 96px; }
+  .nf-screen--game .nf-frame { transform-origin: bottom center; }
+  /* the top HUD owns the top area on mobile — hide the sound toggle here
+     (it's reachable from the intro/select screens) */
+  .nf-screen--game .nf-mute { display: none; }
+
+  /* portaled HUD: pinned to the real viewport top, full-width, stacked, real
+     (un-scaled) sizes. Sits just below the top marquee. */
+  .nf-hud--fixed {
+    position: fixed;
+    top: 52px;
+    left: 16px;
+    right: 16px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    z-index: 950;
+  }
+  .nf-hud--fixed .nf-hud__side { width: 100%; flex: none; }
+  .nf-hud--fixed .nf-hud__name { font-size: 18px; margin-bottom: 5px; }
+  .nf-hud--fixed .nf-hud__side--r,
+  .nf-hud--fixed .nf-hud__side--r .nf-hud__name { text-align: left; }
+  .nf-hud--fixed .nf-hud__bar { height: 20px; border-width: 3px; }
+  .nf-hud--fixed .nf-hud__side--r .nf-hud__bar { justify-content: flex-start; }
+  .nf-hud--fixed .nf-hud__pow { height: 8px; border-width: 2px; }
+  .nf-hud--fixed .nf-hud__side--r .nf-hud__pow { justify-content: flex-start; }
+  .nf-hud--fixed .nf-hud__vs {
+    flex-direction: row;
+    align-self: flex-start;
+    align-items: baseline;
+    gap: 8px;
+    font-size: 18px;
+  }
+  .nf-hud--fixed .nf-hud__lv { font-size: 11px; margin-top: 0; }
+}

@@ -72,12 +72,20 @@ export default function NotFoundGame({ player, opponents, onExit }) {
   const opp = opponents[Math.min(level, opponents.length) - 1]
   const nextOpp = opponents[level] || null
 
+  // Mobile uses a narrowed fighter range so the wide 1440 canvas can scale up
+  // big on a portrait screen (bigger characters + ring) while keeping both
+  // fighters on-screen. Desktop keeps the full range.
+  const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768
+  const BND = isMobile
+    ? { min: 540, max: 900, p1: 640, p2: 800 }
+    : { min: X_MIN, max: X_MAX, p1: 470, p2: 970 }
+
   const p1Ref = useRef(null), p2Ref = useRef(null)
   const pow1Ref = useRef(null), pow2Ref = useRef(null)
   const bannerT = useRef(0)
   const g = useRef(null)
   const fresh = (x) => ({ x, atk: 0, cd: 0, hit: false, flash: 0, hp: 100, power: 0, combo: 0, block: false, sup: false, charge: 0, ai: 600 })
-  if (!g.current) g.current = { p1: fresh(470), p2: fresh(970), keys: {}, level: 1, last: 0, raf: 0 }
+  if (!g.current) g.current = { p1: fresh(BND.p1), p2: fresh(BND.p2), keys: {}, level: 1, last: 0, raf: 0 }
 
   const flash = (text, cls) => {
     setBanner({ text, cls })
@@ -216,8 +224,8 @@ export default function NotFoundGame({ player, opponents, onExit }) {
         if (p1.x < p2.x) { p1.x = mid - MIN_SEP / 2; p2.x = mid + MIN_SEP / 2 }
         else { p1.x = mid + MIN_SEP / 2; p2.x = mid - MIN_SEP / 2 }
       }
-      p1.x = Math.max(X_MIN, Math.min(X_MAX, p1.x))
-      p2.x = Math.max(X_MIN, Math.min(X_MAX, p2.x))
+      p1.x = Math.max(BND.min, Math.min(BND.max, p1.x))
+      p2.x = Math.max(BND.min, Math.min(BND.max, p2.x))
 
       draw()
 
@@ -242,26 +250,32 @@ export default function NotFoundGame({ player, opponents, onExit }) {
 
   useEffect(() => { draw() }, [phase, level])
 
-  const resetFighters = () => { g.current.p1 = fresh(470); g.current.p2 = fresh(970); setHp({ p1: 100, p2: 100 }) }
+  const resetFighters = () => { g.current.p1 = fresh(BND.p1); g.current.p2 = fresh(BND.p2); setHp({ p1: 100, p2: 100 }) }
   const nextLevel = () => { const nl = level + 1; g.current.level = nl; resetFighters(); setLevel(nl); setPhase('countdown') }
   const retry = () => { resetFighters(); setPhase('countdown') }
   const restart = () => { g.current.level = 1; resetFighters(); setLevel(1); setPhase('countdown') }
 
+  // On mobile the HUD is portaled to <body> so it pins to the real viewport top
+  // at full size — independent of the down-scaled, bottom-aligned arena frame.
+  const hud = (
+    <div className={`nf-hud${isMobile ? ' nf-hud--fixed' : ''}`}>
+      <div className="nf-hud__side">
+        <div className="nf-hud__name">{player.name}</div>
+        <div className="nf-hud__bar"><i style={{ width: `${hp.p1}%` }} className="nf-hud__fill nf-hud__fill--p1" /></div>
+        <div className="nf-hud__pow"><i ref={pow1Ref} className="nf-hud__pow-fill nf-hud__pow-fill--p1" style={{ width: 0 }} /></div>
+      </div>
+      <div className="nf-hud__vs">VS<span className="nf-hud__lv">LV {level}/{LEVELS}</span></div>
+      <div className="nf-hud__side nf-hud__side--r">
+        <div className="nf-hud__name">{opp.name}</div>
+        <div className="nf-hud__bar"><i style={{ width: `${hp.p2}%` }} className="nf-hud__fill nf-hud__fill--p2" /></div>
+        <div className="nf-hud__pow"><i ref={pow2Ref} className="nf-hud__pow-fill nf-hud__pow-fill--p2" style={{ width: 0 }} /></div>
+      </div>
+    </div>
+  )
+
   return (
     <div className="nf-game">
-      <div className="nf-hud">
-        <div className="nf-hud__side">
-          <div className="nf-hud__name">{player.name}</div>
-          <div className="nf-hud__bar"><i style={{ width: `${hp.p1}%` }} className="nf-hud__fill nf-hud__fill--p1" /></div>
-          <div className="nf-hud__pow"><i ref={pow1Ref} className="nf-hud__pow-fill nf-hud__pow-fill--p1" style={{ width: 0 }} /></div>
-        </div>
-        <div className="nf-hud__vs">VS<span className="nf-hud__lv">LV {level}/{LEVELS}</span></div>
-        <div className="nf-hud__side nf-hud__side--r">
-          <div className="nf-hud__name">{opp.name}</div>
-          <div className="nf-hud__bar"><i style={{ width: `${hp.p2}%` }} className="nf-hud__fill nf-hud__fill--p2" /></div>
-          <div className="nf-hud__pow"><i ref={pow2Ref} className="nf-hud__pow-fill nf-hud__pow-fill--p2" style={{ width: 0 }} /></div>
-        </div>
-      </div>
+      {isMobile ? createPortal(hud, document.body) : hud}
 
       <div className="nf-arena">
         <img ref={p1Ref} className="nf-fighter-sprite" src={SPR + player.key + '.png'} alt={player.name} />

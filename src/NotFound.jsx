@@ -138,16 +138,28 @@ export default function NotFound() {
   const [scale, setScale] = useState(1)
   const screenRef = useRef(null)
 
-  // Scale the 1440×752 content frame down to fit; background/marquees stay 100% width
+  // Scale the 1440×752 content frame down to fit; background/marquees stay 100% width.
+  // On phones the intro/select screens lay out natively (scale 1) — only the fight
+  // arena keeps the fit-scale because its fighter logic uses fixed 1440-space coords.
   useEffect(() => {
     const fit = () => {
+      if (window.innerWidth <= 768) {
+        if (screen !== 'game') { setScale(1); return }
+        // Fight arena (mobile): the HUD is portaled to the top, so the frame only
+        // holds the ring + fighters and bottom-aligns above the touch controls.
+        // Scale ≈ screenW/780 → bigger characters than the full-1440 fit while the
+        // ring still fills the width; height term just guards short screens.
+        const h = screenRef.current ? screenRef.current.clientHeight : window.innerHeight
+        setScale(Math.min(1, window.innerWidth / 780, (h - 100) / 752))
+        return
+      }
       const h = screenRef.current ? screenRef.current.clientHeight : window.innerHeight
       setScale(Math.min(1, window.innerWidth / 1440, h / 752))
     }
     fit()
     window.addEventListener('resize', fit)
     return () => window.removeEventListener('resize', fit)
-  }, [])
+  }, [screen])
 
   useEffect(() => {
     document.body.classList.add('nf-lock')
