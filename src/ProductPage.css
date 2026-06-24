@@ -389,6 +389,28 @@
   .pp-title { font-size: 28px; }
   .pp-options { gap: 32px; }
   .pp-add { font-size: 20px; }
+
+  /* More apparel — stack vertically, tag on top */
+  .pp-more {
+    flex-direction: column;
+    align-items: stretch;
+    overflow-x: visible;
+    gap: 24px;
+  }
+  .pp-more__label {
+    width: auto;
+    height: auto;
+    justify-content: flex-start;
+    padding: 8px 0 4px 12px;
+  }
+  .pp-more__track {
+    flex-direction: column;
+  }
+  .pp-more__card { width: 100%; }
+  .pp-more__card .sa-card__img {
+    height: auto;
+    aspect-ratio: 344 / 417;
+  }
 }
 
 @media (max-width: 480px) {
