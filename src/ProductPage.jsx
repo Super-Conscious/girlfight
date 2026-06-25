@@ -2,6 +2,8 @@ import { useState, useEffect, useRef } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { HomeMarquee, HomeFooter } from './Home'
 import { useCart } from './CartContext'
+import { useShop } from './ShopContext'
+import { formatMoney } from './lib/catalog'
 import { PRODUCTS, getProduct, SIZES } from './products'
 import SiteNav from './SiteNav'
 import './Home.css'
@@ -36,7 +38,8 @@ function Accordion({ title, children }) {
 export default function ProductPage() {
   const { id } = useParams()
   const product = getProduct(id) || PRODUCTS[0]
-  const { open, count, addItem } = useCart()
+  const { open, count, addItem, busy } = useCart()
+  const { getVariant, priceLabel } = useShop()
 
   const [size, setSize] = useState('XL')
   const [qty, setQty] = useState(1)
@@ -50,6 +53,12 @@ export default function ProductPage() {
   const shirtBg = isWhite ? '#ffffff' : '#000000'
   const hasWhite = (product.variants.white || []).length > 0
   const hasColors = variants.length > 1 || hasWhite
+
+  // Live Shopify variant for the selected colorway + size
+  const variant = getVariant(product, { isWhite, ink: current.color, size })
+  const livePrice = variant ? formatMoney(variant.price) : product.price
+  const soldOut = variant && variant.availableForSale === false
+  const unavailable = !variant
 
   // Flat colorway list (all bases shown together, no reverse toggle)
   const flatVariants = product.flatVariants
@@ -84,8 +93,8 @@ export default function ProductPage() {
   const more = PRODUCTS.filter((p) => p.id !== product.id)
 
   const handleAdd = () => {
-    addItem(product, { size, color: current.color, img: current.src, qty })
-    open()
+    if (unavailable || soldOut || busy) return
+    addItem(product, { size, isWhite, ink: current.color, qty })
   }
 
   return (
@@ -191,8 +200,8 @@ export default function ProductPage() {
               </div>
             </div>
 
-            <button className="pp-add" onClick={handleAdd}>
-              Add to Cart <span>{product.price}</span>
+            <button className="pp-add" onClick={handleAdd} disabled={unavailable || soldOut || busy}>
+              {soldOut ? 'Sold Out' : unavailable ? 'Unavailable' : busy ? 'Adding…' : <>Add to Cart <span>{livePrice}</span></>}
             </button>
 
             <div className="pp-accordions">
@@ -221,7 +230,7 @@ export default function ProductPage() {
               </div>
               <div className="sa-card__meta">
                 <span className="sa-card__name">{p.name}</span>
-                <span className="sa-card__price">{p.price}</span>
+                <span className="sa-card__price">{priceLabel(p) || p.price}</span>
               </div>
             </Link>
           ))}

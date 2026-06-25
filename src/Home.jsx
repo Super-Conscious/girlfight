@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { PRODUCTS as ALL_PRODUCTS } from './products'
 import { useCart } from './CartContext'
+import { useShop } from './ShopContext'
 import SiteNav from './SiteNav'
 import './Home.css'
 
@@ -20,7 +21,7 @@ export function HomeMarquee({ bg = '#000', color = '#fff' }) {
 
 /* ─── Cart drawer ──────────────────────────────────── */
 export function CartDrawer() {
-  const { items, count, subtotal, isOpen, close, removeItem, updateQty } = useCart()
+  const { items, count, subtotal, isOpen, close, removeItem, updateQty, checkout, busy } = useCart()
 
   useEffect(() => {
     if (!isOpen) return
@@ -89,7 +90,9 @@ export function CartDrawer() {
             <span>Subtotal</span>
             <span className="hm-cart__price">${subtotal.toFixed(2)}</span>
           </div>
-          <button className="hm-cart__checkout" disabled={count === 0}>Checkout</button>
+          <button className="hm-cart__checkout" disabled={count === 0 || busy} onClick={checkout}>
+            {busy ? 'Working…' : 'Checkout'}
+          </button>
         </footer>
       </aside>
     </>
@@ -159,6 +162,7 @@ function BannerSlideshow() {
 }
 
 function Section1() {
+  const { priceLabel } = useShop()
   return (
     <section className="hm-s1">
       <div className="hm-s1__banner">
@@ -188,7 +192,7 @@ function Section1() {
             </div>
             <div className="hm-product-card__meta">
               <span className="hm-product-card__name">{p.name}</span>
-              <span className="hm-product-card__price">{p.price}</span>
+              <span className="hm-product-card__price">{priceLabel(p) || p.price}</span>
             </div>
           </Link>
         ))}

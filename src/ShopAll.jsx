@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { HomeMarquee, FAQSection, HomeFooter } from './Home'
 import { useCart } from './CartContext'
+import { useShop } from './ShopContext'
 import { PRODUCTS } from './products'
 import SiteNav from './SiteNav'
 import './Home.css'
@@ -31,6 +32,7 @@ function MindOverBody() {
 
 export default function ShopAll() {
   const { open, count } = useCart()
+  const { priceLabel } = useShop()
 
   useEffect(() => {
     document.body.style.background = '#fff'
@@ -62,7 +64,7 @@ export default function ShopAll() {
             </div>
             <div className="sa-card__meta">
               <span className="sa-card__name">{p.name}</span>
-              <span className="sa-card__price">{p.price}</span>
+              <span className="sa-card__price">{priceLabel(p) || p.price}</span>
             </div>
           </Link>
         ))}

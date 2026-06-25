@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { CartProvider } from './CartContext'
+import { ShopProvider } from './ShopContext'
 import { AuthProvider } from './AuthContext'
 import { CartDrawer } from './Home'
 import Home from './Home'
@@ -31,8 +32,9 @@ function ScrollToTop() {
 export default function App() {
   return (
     <AuthProvider>
-      <CartProvider>
-        <BrowserRouter>
+      <ShopProvider>
+        <CartProvider>
+          <BrowserRouter>
           <ScrollToTop />
           <CartDrawer />
           <Routes>
@@ -47,8 +49,9 @@ export default function App() {
             <Route path="/404" element={<NotFound />} />
             <Route path="*" element={<Navigate to="/404" replace />} />
           </Routes>
-        </BrowserRouter>
-      </CartProvider>
+          </BrowserRouter>
+        </CartProvider>
+      </ShopProvider>
     </AuthProvider>
   )
 }
